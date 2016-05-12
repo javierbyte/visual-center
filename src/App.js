@@ -5,6 +5,8 @@ const _ = require('lodash')
 const base64ImageUtils = require('base64-image-utils')
 const {base64ImageToRGBMatrix} = base64ImageUtils
 
+const COLOR_DIFF_WEIGHT_EXPO = 0.333;
+
 const App = React.createClass({
 
   getInitialState() {
@@ -114,7 +116,9 @@ const App = React.createClass({
 })
 
 function rgbDiff(baseColor, testColor) {
-  return (Math.abs(baseColor.r - testColor.r) + Math.abs(baseColor.g - testColor.g) + Math.abs(baseColor.b - testColor.b)) * testColor.a
+  var diff = Math.abs(baseColor.r - testColor.r) + Math.abs(baseColor.g - testColor.g) + Math.abs(baseColor.b - testColor.b);
+  var maxDiff = 255 * 3;
+  return Math.round(diff * Math.pow(diff / maxDiff, COLOR_DIFF_WEIGHT_EXPO)  * testColor.a * 100)
 }
 
 function toPercent(number) {
