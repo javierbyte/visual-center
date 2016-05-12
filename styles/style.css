@@ -1,0 +1,97 @@
+* {
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+body {
+  font-family: 'Proxima Nova';
+  font-size: 1em;
+  line-height: 1.618;
+}
+
+.dropzone {
+  outline: 2px dashed #ccc;
+  padding: 2rem;
+}
+
+.padding-2 {
+  padding: 2rem;
+}
+
+.demo-image-comparison {
+  text-align: center;
+}
+.demo-image-container {
+  width: 39vmin;
+  height: 39vmin;
+  border: 1px solid #000;
+  margin: 5vmin 5vmin 0;
+  position: relative;
+  display: inline-block;
+}
+.demo-image-container-circle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  z-index: 10;
+  border:1px solid rgba(0,0,0,.1);
+}
+.demo-image-container-circle::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 25%;
+  left: 25%;
+  width: 50%;
+  height: 50%;
+  border-radius: 100%;
+  z-index: 10;
+  border:1px solid rgba(0,0,0,.03);
+}
+.demo-image-container-title {
+  position: absolute;
+  top: -2rem;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 1;
+}
+.demo-image-container::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: 0;
+}
+.demo-image-container::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 100%;
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 50%;
+}
+
+.demo-image {
+  max-width: 30vmin;
+  height: auto;
+  z-index: 2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.demo-image:hover {
+  outline: 1px solid #f00;
+}
