@@ -104,6 +104,12 @@ a {
   display: inline-block;
 }
 
+.results {
+  font-weight: 300;
+  font-size: 1.333em;
+  line-height: 1.4;
+}
+
 /* options */
 .-show-guides .demo-image-container::before {
   content: '';

@@ -104,12 +104,13 @@ const App = React.createClass({
     const bgColorCodeDark = `rgb(${Math.floor(nColor.r * 0.9)}, ${Math.floor(nColor.g * 0.9)}, ${Math.floor(nColor.b * 0.9)})`
     const isDark = nColor.r + nColor.g + nColor.b < 255 * 3 / 1.7
 
-    const recommendations = _.compact([
-      visualLeft > .5 && ` move it left by ${toPercent(visualLeft * .50 - .25)}%`,
-      visualLeft < .5 && ` move it right by ${toPercent((1 - visualLeft) * .50 - .25)}%`,
-      visualTop > .5 && ` move it up by ${toPercent(visualTop * .50 - .25)}%`,
-      visualTop < .5 && ` move it down by ${toPercent((1 - visualTop) * .50 - .25)}%`,
-    ]).join(' and ')
+    const recommendations = <span>
+      {visualLeft > .5 && <span>move it left by <b>{toPercent(visualLeft * .50 - .25)}%</b></span>}
+      {visualLeft < .5 && <span>move it right by <b>{toPercent((1 - visualLeft) * .50 - .25)}%</b></span>}
+      {visualLeft !== .5 && visualTop !== .5 && <span> and </span>}
+      {visualTop > .5 && <span>move it up by <b>{toPercent(visualTop * .50 - .25)}%</b></span>}
+      {visualTop < .5 && <span>move it down by <b>{toPercent((1 - visualTop) * .50 - .25)}%</b></span>}
+    </span>
 
     return <div className='app' style={{backgroundColor: bgColorCodeDark, color: isDark ? '#fff' : '#333'}}>
       <div className='padding-2'>
@@ -175,11 +176,13 @@ const App = React.createClass({
         </div>
       </div>
 
-      {base64 && (<div className='padding-2'>
+      {base64 && (<div className='padding-2 results'>
         <div>
-          {base64 && `The center is at ${toPercent(visualLeft)}% - ${toPercent(visualTop)}%.`}
+          {base64 && `The center is at ${toPercent(visualLeft)}% - ${toPercent(visualTop)}%`}
         </div>
-        {recommendations && (' You can visual center this image if you ' + recommendations) + '.'}
+        {recommendations && (<div>
+          You can visual center this image if you {recommendations}
+        </div>)}
       </div>)}
 
       <div className='padding-2'>
