@@ -23,6 +23,10 @@ a {
   min-height: 100vh;
 }
 
+.app-header {
+  padding: 2rem 2rem 0;
+}
+
 .social-share {
   position: fixed;
   top: 0;
@@ -48,7 +52,7 @@ a {
 }
 
 .column {
-  width: 44vmin;
+  width: 40vmin;
   margin: 5vmin 2.5vmin 0;
   display: inline-block;
 }
@@ -56,14 +60,18 @@ a {
 .demo-image-comparison {
   text-align: center;
 }
+
 .demo-image-container {
-  width: 44vmin;
-  height: 44vmin;
+  width: 40vmin;
+  height: 40vmin;
   position: relative;
-  transition: border-radius 0.3s;
+  transition: border-radius 0.3s, transform 1s;
   box-shadow: rgba(0,0,0,.05) 0 1px 0, rgba(0,0,0,.05) 0 2px 8px;
   border-radius: 0;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .demo-image-container.-first::before {
@@ -135,12 +143,10 @@ a {
 }
 
 .demo-image {
+  display: block;
   max-width: 30vmin;
   height: auto;
   z-index: 2;
-  position: absolute;
-  top: 50%;
-  left: 50%;
 }
 
 .demo-image:hover {
