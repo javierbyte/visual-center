@@ -48,8 +48,6 @@ const App = React.createClass({
   },
 
   processBase64(base64) {
-    console.warn(base64)
-
     base64ImageToRGBMatrix(base64, (err, rgbMatrix) => {
       const height = rgbMatrix.length
       const width = rgbMatrix[0].length
