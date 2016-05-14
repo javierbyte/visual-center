@@ -1,17 +1,5 @@
-# React Minimal Starter
+# Visual Center.
+This is a tool that will find the visual center of your images.
 
-* React.
-* React-Transform (hot reload).
-* Uglify.
-
-## Getting started.
-
-### Development.
-```
-npm start
-```
-
-### Production.
-```
-npm run build
-```
+## Programatical Usage.
+Coming soon...
