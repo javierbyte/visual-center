@@ -33,6 +33,9 @@ a {
   left: 0;
   padding: 1rem;
 }
+.social-share iframe {
+  margin-left: 0.5rem;
+}
 
 .dropzone {
   cursor: pointer;
