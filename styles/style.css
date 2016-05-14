@@ -5,12 +5,17 @@
 }
 
 body {
-  font-family: 'Proxima Nova';
+  font-family: Lato, sans-serif;
   font-size: 1em;
   line-height: 1.618;
   text-align: center;
   background: #eeeeef;
   color: #333;
+}
+
+a {
+  color: inherit;
+  font-weight: 700;
 }
 
 .app {
