@@ -49,8 +49,6 @@ const App = React.createClass({
   },
 
   processBase64(base64) {
-    console.warn(base64)
-
     base64ImageToRGBMatrix(base64, (err, rgbMatrix) => {
       const height = rgbMatrix.length
       const width = rgbMatrix[0].length
@@ -76,7 +74,6 @@ const App = React.createClass({
         let accumulated = 0
         return parseInt(_.findKey(rowWeight, (rowVal) => {
           accumulated = accumulated + rowVal
-          if (accumulated * 2 > totalDiff) console.log({accumulated})
           return accumulated * 2 > totalDiff
         }), 10)
       })()
@@ -93,19 +90,6 @@ const App = React.createClass({
         return res + el
       }, 0)
 
-      /*
-      const leHalfRowSum = _.reduce(rowWeight.slice(0, mediumRow), (res, el) => {
-        return res + el
-      }, 0)
-
-      const leOtherHalfRowSum = _.reduce(rowWeight.slice(mediumRow - rowWeight.length), (res, el) => {
-        return res + el
-      }, 0)
-      */
-
-      console.warn({mediumRow, height, percent: mediumRow / height, rowWeight})
-      // console.warn({totalDiff, leRowSum, leHalfRowSum, leOtherHalfRowSum})
-
       this.setState({
         base64: base64,
         visualTop: mediumRow / height,
@@ -119,9 +103,6 @@ const App = React.createClass({
     const {base64, visualTop, visualLeft, showGuides, useCircle, useExpo, backgroundColor} = this.state
     const resultLeft = expoValue(visualLeft, useExpo)
     const resultTop = expoValue(visualTop, useExpo)
-
-    console.warn({resultLeft, visualLeft})
-    console.warn({resultTop, visualTop})
 
     const nColor = normalizeColor(backgroundColor)
 
