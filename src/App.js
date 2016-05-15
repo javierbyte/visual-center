@@ -198,8 +198,8 @@ const App = React.createClass({
         </div>)}
       </div>)}
 
-      <div className='padding-2'>
-        Created by <a href="http://javier.xyz/">javierbyte</a>.
+      <div className='credits padding-2'>
+        Created by <a href="http://javier.xyz/">javierbyte</a>. More experiments: <a href="http://javier.xyz/img2css">img2css</a>, <a href="http://javier.xyz/cohesive-colors">cohesive-colors</a>, <a href="http://javier.xyz/morphin">morphin</a>.
       </div>
     </div>
   }

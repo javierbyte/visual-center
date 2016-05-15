@@ -18,6 +18,14 @@ a {
   font-weight: 700;
 }
 
+.credits {
+  font-weight: 300;
+  font-size: 0.9em;
+}
+.credits a {
+  font-weight: 400;
+}
+
 .app {
   width: 100vw;
   min-height: 100vh;
