@@ -7,7 +7,7 @@ This is a tool that will find the visual center of your images.
 ## Programmatic Usage.
 
 ```
-npm install visual-center --save`
+npm install visual-center --save
 ```
 
 ```js
