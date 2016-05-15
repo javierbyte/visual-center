@@ -16,7 +16,7 @@ const App = React.createClass({
       image64: null,
 
       showGuides: true,
-      useCircle: false,
+      useCircle: true,
       useExpo: true,
 
       visualLeft: null,
