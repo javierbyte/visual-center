@@ -235,7 +235,7 @@ function normalizeColor(color) {
 
 function expoValue(val, useExpo) {
   if (useExpo) {
-    return Math.pow(val + 0.5, 0.618) - 0.5
+    return Math.pow(val + 0.5, 0.6) - 0.5
   } else {
     return val
   }
