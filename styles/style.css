@@ -7,7 +7,7 @@
 body {
   font-family: Lato, sans-serif;
   font-size: 1em;
-  line-height: 1.618;
+  line-height: 1.5;
   text-align: center;
   background: #eeeeef;
   color: #333;
@@ -33,6 +33,11 @@ a {
 
 .app-header {
   padding: 2rem 2rem 0;
+}
+
+.app-title {
+  text-transform: uppercase;
+  font-size: 2em;
 }
 
 .social-share {
@@ -107,10 +112,13 @@ a {
   z-index: 1;
 }
 
+.app-control-container {
+  padding: 1rem 0 1.5rem;
+}
 .app-control {
   user-select: none;
   -webkit-user-select: none;
-  padding: 1rem;
+  padding: 0.25rem 1rem;
   display: inline-block;
 }
 
@@ -164,4 +172,10 @@ a {
 
 .demo-image:hover {
   outline: 1px solid #f00;
+}
+
+@media screen and (max-width: 640px) {
+  .app {
+    padding-top: 1rem;
+  }
 }

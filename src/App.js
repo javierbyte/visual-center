@@ -2,12 +2,9 @@ const React = require('react')
 const Dropzone = require('react-dropzone');
 const _ = require('lodash')
 
-const base64ImageUtils = require('base64-image-utils')
-const {base64ImageToRGBMatrix} = base64ImageUtils
+const visualCenter = require('./visualCenter.js');
 
 const demoImage = require('./assets/demo.js')
-
-const COLOR_DIFF_WEIGHT_EXPO = 0.333;
 
 const App = React.createClass({
 
@@ -49,54 +46,16 @@ const App = React.createClass({
   },
 
   processBase64(base64) {
-    base64ImageToRGBMatrix(base64, (err, rgbMatrix) => {
-      const height = rgbMatrix.length
-      const width = rgbMatrix[0].length
-
-      const bgColor = normalizeColor(rgbMatrix[0][0])
-      const maxDiff = Math.max(bgColor.r, 255 - bgColor.r) + Math.max(bgColor.g, 255 - bgColor.g) + Math.max(bgColor.b, 255 - bgColor.b)
-
-      let rowWeight = []
-      let colWeight = []
-
-      const totalDiff = _.reduce(rgbMatrix, (resRow, rgbRow, rgbRowIdx) => {
-        const rowDiff = _.reduce(rgbRow, (resCol, rgbCol, rgbColIdx) => {
-          const colDiff = rgbDiff(bgColor, rgbCol, maxDiff)
-          colWeight[rgbColIdx] = colWeight[rgbColIdx] ? colWeight[rgbColIdx] + colDiff : colDiff
-          return resCol + colDiff
-        }, 0)
-
-        rowWeight[rgbRowIdx] = rowDiff
-        return resRow + rowDiff
-      }, 0)
-
-      const mediumRow = (() => {
-        let accumulated = 0
-        return parseInt(_.findKey(rowWeight, (rowVal) => {
-          accumulated = accumulated + rowVal
-          return accumulated * 2 > totalDiff
-        }), 10)
-      })()
-
-      const mediumCol = (() => {
-        let accumulated = 0
-        return parseInt(_.findKey(colWeight, (colVal) => {
-          accumulated = accumulated + colVal
-          return accumulated * 2 > totalDiff
-        }), 10)
-      })()
-
-      const leRowSum = _.reduce(rowWeight, (res, el) => {
-        return res + el
-      }, 0)
+    visualCenter(base64, (err, result) => {
+      var {visualTop, visualLeft, bgColor} = result;
 
       this.setState({
         base64: base64,
-        visualTop: mediumRow / height,
-        visualLeft: mediumCol / width,
+        visualTop: visualTop,
+        visualLeft: visualLeft,
         backgroundColor: bgColor
       })
-    });
+    })
   },
 
   render() {
@@ -120,7 +79,7 @@ const App = React.createClass({
 
     return <div className='app' style={{backgroundColor: bgColorCodeDark, color: isDark ? '#fff' : '#333'}}>
       <div className='app-header'>
-        <h1>Visual Center</h1>
+        <h1 className='app-title'>Visual Center</h1>
         <div>
           This is a tool that will find the visual center of your images.
         </div>
@@ -130,7 +89,7 @@ const App = React.createClass({
         </Dropzone>
       </div>
 
-      <div className='controls'>
+      <div className='app-control-container'>
         <label className='app-control'>
           <input
             type='checkbox'
@@ -205,15 +164,6 @@ const App = React.createClass({
   }
 })
 
-function normalizeColor(color) {
-  return {
-    r: Math.floor(color.r * (color.a / 255) + 255 * (1 - (color.a / 255))),
-    g: Math.floor(color.g * (color.a / 255) + 255 * (1 - (color.a / 255))),
-    b: Math.floor(color.b * (color.a / 255) + 255 * (1 - (color.a / 255))),
-    a: 255
-  }
-}
-
 function expoValue(val, useExpo) {
   if (useExpo) {
     return Math.pow(val + 0.5, 0.5) - 0.5
@@ -222,13 +172,13 @@ function expoValue(val, useExpo) {
   }
 }
 
-function rgbDiff(baseColor, testColor, maxDiff) {
-  if (testColor.a === 0) return 0
-
-  const diff = Math.abs(baseColor.r - testColor.r) + Math.abs(baseColor.g - testColor.g) + Math.abs(baseColor.b - testColor.b)
-  const result = Math.round(Math.pow(diff / maxDiff, COLOR_DIFF_WEIGHT_EXPO)  * (testColor.a / 255) * 1000)
-
-  return result
+function normalizeColor(color) {
+  return {
+    r: Math.floor(color.r * (color.a / 255) + 255 * (1 - (color.a / 255))),
+    g: Math.floor(color.g * (color.a / 255) + 255 * (1 - (color.a / 255))),
+    b: Math.floor(color.b * (color.a / 255) + 255 * (1 - (color.a / 255))),
+    a: 255
+  }
 }
 
 function toPercent(number) {
