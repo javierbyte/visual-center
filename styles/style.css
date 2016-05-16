@@ -15,7 +15,11 @@ body {
 
 a {
   color: inherit;
-  font-weight: 700;
+  color: #2980B9;
+  font-weight: 300;
+}
+a:hover {
+  color: #000;
 }
 
 .credits {
