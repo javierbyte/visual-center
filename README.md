@@ -6,7 +6,7 @@ This is a tool that will find the visual center of your images.
 ## How it works.
 It calculates a visual weight value for every pixel on the image: the square root of the difference between that pixel and the background color. And then the algorithm tries to balance that weight in all directions.
 
-Why the squre root? http://spectrum.ieee.org/podcast/biomedical/bionics/does-the-brain-work-logarithmically
+Why the square root? http://spectrum.ieee.org/podcast/biomedical/bionics/does-the-brain-work-logarithmically
 
 ## Programmatic Usage.
 
