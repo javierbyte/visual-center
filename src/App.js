@@ -116,7 +116,7 @@ const App = React.createClass({
             checked={useExpo}
             onChange={() => {this.setState({useExpo: !useExpo})}} />
           <div>
-            Use logaritmic visual weight
+            Use logarithmic visual weight
           </div>
         </label>
       </div>
