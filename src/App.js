@@ -161,7 +161,7 @@ const App = React.createClass({
       <div className='credits padding-2'>
         <div>More experiments: <a href="http://javier.xyz/img2css"><b>img2css</b> (convert images to pure css)</a>, <a href="http://javier.xyz/cohesive-colors"><b>cohesive-colors</b> (creates cohesive color palletes)</a>, <a href="http://javier.xyz/morphin"><b>morphin</b> (css image morphing)</a>, <a href="http://javier.xyz/clashjs/"><b>clashjs</b> (js ai battle game)</a>.</div>
         <br />
-        <div>Created by <a href="http://javier.xyz/"><b>javierbyte</b></a>.</div>
+        <div>Created by <a href="http://javier.xyz/"><b>javierbyte</b></a>. (Thanks <a href="http://skycatch.com">Skycatch</a> for letting me use our logo).</div>
       </div>
     </div>
   }
