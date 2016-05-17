@@ -46,6 +46,7 @@ const App = React.createClass({
   },
 
   processBase64(base64) {
+    console.warn({base64});
     visualCenter(base64, (err, result) => {
       var {visualTop, visualLeft, bgColor} = result;
 
@@ -168,7 +169,7 @@ const App = React.createClass({
 
 function expoValue(val, useExpo) {
   if (useExpo) {
-    return Math.pow(val + 0.5, 0.5) - 0.5
+    return Math.pow(val + 0.5, 0.73) - 0.5
   } else {
     return val
   }
