@@ -1,4 +1,5 @@
 const base64ImageUtils = require('base64-image-utils')
+const _ = require('lodash')
 const {base64ImageToRGBMatrix} = base64ImageUtils
 
 const COLOR_DIFF_WEIGHT_EXPO = 0.333;
