@@ -3,6 +3,8 @@ This is a tool that will find the visual center of your images.
 
 [![visual-center](docs-assets/screenshot.jpg)](http://javier.xyz/visual-center/)
 
+Why is this important: https://medium.com/@lukejonesme/optical-adjustment-b55492a1165c#.m1nwh4b0a
+
 ## How it works.
 It calculates a visual weight value for every pixel on the image: the square root of the difference between that pixel and the background color. And then the algorithm tries to balance that weight in all directions.
 
