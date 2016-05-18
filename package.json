@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "",
   "main": "src/visualCenter.js",
+  "files": [
+    "src/visualCenter.js"
+  ],
   "scripts": {
     "clean": "rimraf dist",
     "build:webpack": "cross-env NODE_ENV=production webpack --config webpack/webpack.config.prod.js",
