@@ -156,10 +156,14 @@ const App = React.createClass({
         {recommendations && (<div>
           You can visual center this image if you {recommendations}
         </div>)}
+        <div>
+          <br />
+          Interested in Sketch and Illustrator plugins? <a href='http://eepurl.com/b5_E-j' target='_blank'>join the newsletter!</a>.
+        </div>
       </div>)}
 
       <div className='credits padding-2'>
-        <div>More experiments: <a href="http://javier.xyz/img2css"><b>img2css</b> (convert images to pure css)</a>, <a href="http://javier.xyz/cohesive-colors"><b>cohesive-colors</b> (creates cohesive color palletes)</a>, <a href="http://javier.xyz/morphin"><b>morphin</b> (css image morphing)</a>, <a href="http://javier.xyz/clashjs/"><b>clashjs</b> (js ai battle game)</a>.</div>
+        <div>More experiments: <a href="http://javier.xyz/img2css"><b>img2css</b> (convert images to pure css)</a>, <a href="http://javier.xyz/cohesive-colors"><b>cohesive-colors</b> (creates cohesive color palletes)</a>, <a href="http://javier.xyz/morphin"><b>morphin</b> (css image morphing)</a>, <a href="http://javier.xyz/clashjs/"><b>clashjs</b> (js ai battle game)</a></div>
         <br />
         <div>Created by <a href="http://javier.xyz/"><b>javierbyte</b></a>. (Thanks <a href="http://skycatch.com">Skycatch</a> for letting me use our logo).</div>
       </div>
