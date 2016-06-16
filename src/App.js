@@ -158,7 +158,7 @@ const App = React.createClass({
         </div>)}
         <div>
           <br />
-          Interested in Sketch and Illustrator plugins? <a href='http://eepurl.com/b5_E-j' target='_blank'>join the newsletter!</a>
+          Interested in Sketch and Illustrator plugins? <a href='http://eepurl.com/b5_E-j' target='_blank'>Join the newsletter!</a>
         </div>
       </div>)}
 
