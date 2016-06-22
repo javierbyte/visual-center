@@ -82,7 +82,7 @@ const App = React.createClass({
       <div className='app-header'>
         <h1 className='app-title'>Visual Center</h1>
         <div>
-          This is a tool that will find the visual center of your images.
+          This tool will find the visual center of your images.
         </div>
 
         <Dropzone onDrop={this.onDrop} className='dropzone'>
@@ -158,7 +158,7 @@ const App = React.createClass({
         </div>)}
         <div>
           <br />
-          Interested in Sketch and Illustrator plugins? <a href='http://eepurl.com/b5_E-j' target='_blank'>Join the newsletter!</a>
+          Interested in <strong>Sketch</strong> and <strong>Illustrator</strong> plugins? <a href='http://eepurl.com/b5_E-j' target='_blank'><strong>Join the newsletter!</strong></a>
         </div>
       </div>)}
 

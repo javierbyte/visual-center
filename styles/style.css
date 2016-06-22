@@ -21,6 +21,9 @@ a {
 a:hover {
   color: #000;
 }
+strong {
+  font-weight: 400;
+}
 
 .credits {
   font-weight: 300;
@@ -40,7 +43,6 @@ a:hover {
 }
 
 .app-title {
-  text-transform: uppercase;
   font-size: 2em;
 }
 
@@ -172,10 +174,25 @@ a:hover {
   width: 25vmin;
   height: auto;
   z-index: 2;
+  animation: example 2s infinite alternate;
+  transition: opacity 0.5s;
 }
 
 .demo-image:hover {
-  outline: 1px solid #f00;
+  outline: 1px dashed #f00 !important;
+  animation: none;
+}
+
+@keyframes example {
+  0% {
+    outline: 1px dashed rgba(255, 0, 0, 0);
+  }
+  25% {
+    outline: 1px dashed rgba(255, 0, 0, 0);
+  }
+  100% {
+    outline: 1px dashed rgba(255, 0, 0, 1);
+  }
 }
 
 @media screen and (max-width: 640px) {
