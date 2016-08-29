@@ -14,10 +14,10 @@ const App = React.createClass({
 
       showGuides: true,
       useCircle: true,
-      useExpo: true,
+      useExpo: false,
 
-      visualLeft: null,
-      visualTop: null,
+      visualLeft: 0.5,
+      visualTop: 0.5,
 
       backgroundColor: {
         r: 255,
@@ -37,7 +37,7 @@ const App = React.createClass({
     var reader  = new FileReader();
 
     reader.addEventListener('load', data => {
-      this.processBase64(data.currentTarget.result);
+      this.processBase64(data.currentTarget.result)
     }, false);
 
     if (file) {
@@ -46,23 +46,23 @@ const App = React.createClass({
   },
 
   processBase64(base64) {
-    console.warn({base64});
     visualCenter(base64, (err, result) => {
-      var {visualTop, visualLeft, bgColor} = result;
+      var {visualTop, visualLeft, bgColor, centerIntensity} = result;
 
       this.setState({
-        base64: base64,
         visualTop: visualTop,
         visualLeft: visualLeft,
-        backgroundColor: bgColor
+
+        base64: base64,
+        backgroundColor: bgColor,
       })
     })
   },
 
   render() {
     const {base64, visualTop, visualLeft, showGuides, useCircle, useExpo, backgroundColor} = this.state
-    const resultLeft = expoValue(visualLeft, useExpo)
-    const resultTop = expoValue(visualTop, useExpo)
+    const resultLeft = visualLeft
+    const resultTop = visualTop
 
     const nColor = normalizeColor(backgroundColor)
 
@@ -108,16 +108,6 @@ const App = React.createClass({
             onChange={() => {this.setState({useCircle: !useCircle})}} />
           <div>
             Make the canvas a circle
-          </div>
-        </label>
-
-        <label className='app-control'>
-          <input
-            type='checkbox'
-            checked={useExpo}
-            onChange={() => {this.setState({useExpo: !useExpo})}} />
-          <div>
-            Use logarithmic visual weight
           </div>
         </label>
       </div>
@@ -170,14 +160,6 @@ const App = React.createClass({
     </div>
   }
 })
-
-function expoValue(val, useExpo) {
-  if (useExpo) {
-    return Math.pow(val + 0.5, 0.73) - 0.5
-  } else {
-    return val
-  }
-}
 
 function normalizeColor(color) {
   return {
