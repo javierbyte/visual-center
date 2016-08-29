@@ -14,7 +14,6 @@ const App = React.createClass({
 
       showGuides: true,
       useCircle: true,
-      useExpo: false,
 
       visualLeft: 0.5,
       visualTop: 0.5,
@@ -60,7 +59,7 @@ const App = React.createClass({
   },
 
   render() {
-    const {base64, visualTop, visualLeft, showGuides, useCircle, useExpo, backgroundColor} = this.state
+    const {base64, visualTop, visualLeft, showGuides, useCircle, backgroundColor} = this.state
     const resultLeft = visualLeft
     const resultTop = visualTop
 
@@ -70,13 +69,13 @@ const App = React.createClass({
     const bgColorCodeDark = `rgb(${Math.floor(nColor.r * 0.9)}, ${Math.floor(nColor.g * 0.9)}, ${Math.floor(nColor.b * 0.9)})`
     const isDark = nColor.r + nColor.g + nColor.b < 255 * 3 / 1.7
 
-    const recommendations = <span>
-      {resultLeft > .5 && <span>move it left by <b>{toPercent(resultLeft * .50 - .25)}%</b></span>}
-      {resultLeft < .5 && <span>move it right by <b>{toPercent((1 - resultLeft) * .50 - .25)}%</b></span>}
-      {resultLeft !== .5 && resultTop !== .5 && <span> and </span>}
-      {resultTop > .5 && <span>move it up by <b>{toPercent(resultTop * .50 - .25)}%</b></span>}
-      {resultTop < .5 && <span>move it down by <b>{toPercent((1 - resultTop) * .50 - .25)}%</b></span>}
-    </span>
+    const recommendations = _.compact([
+      resultLeft > .5 && <span>move it left by <b>{toPercent(resultLeft * .50 - .25)}%</b></span>,
+      resultLeft < .5 && <span>move it right by <b>{toPercent((1 - resultLeft) * .50 - .25)}%</b></span>,
+      resultLeft !== .5 && resultTop !== .5 && <span> and </span>,
+      resultTop > .5 && <span>move it up by <b>{toPercent(resultTop * .50 - .25)}%</b></span>,
+      resultTop < .5 && <span>move it down by <b>{toPercent((1 - resultTop) * .50 - .25)}%</b></span>,
+    ])
 
     return <div className='app' style={{backgroundColor: bgColorCodeDark, color: isDark ? '#fff' : '#333'}}>
       <div className='app-header'>
@@ -115,7 +114,7 @@ const App = React.createClass({
       <div className={`demo-image-comparison ${showGuides ? '-show-guides' : ''} ${useCircle ? '-use-circle' : ''}`}>
         <div className='column'>
           <div className='demo-image-container-title'>
-            Element Center
+            Container Center
           </div>
           <div className='demo-image-container' style={{backgroundColor: bgColorCode}}>
             <img
@@ -143,9 +142,12 @@ const App = React.createClass({
         <div>
           {base64 && `The center is at ${toPercent(resultLeft)}% - ${toPercent(resultTop)}%`}
         </div>
-        {recommendations && (<div>
-          You can visual center this image if you {recommendations}
-        </div>)}
+        {recommendations.length ? (<div>
+          {'You can visual center your image if you '}
+          {_.map(recommendations, (rec, recIdx) => {
+            return <span key={recIdx}>{rec}</span>
+          })}
+        </div>) : <div>Your image is perfectly centered! Congrats!</div>}
         <div>
           <br />
           Interested in <strong>Sketch</strong> and <strong>Illustrator</strong> plugins? <a href='http://eepurl.com/b5_E-j' target='_blank'><strong>Join the newsletter!</strong></a>

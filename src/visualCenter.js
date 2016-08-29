@@ -32,18 +32,18 @@ function calculateVisualCenter(rgbMatrix) {
   var visualLeft = 0.5
   var visualTop = 0.5
 
-  var {visualLeft} = recursiveGetCoord(rgbMatrix, visualLeft, visualTop, 'X', 1)
-  var {visualLeft} = recursiveGetCoord(rgbMatrix, visualLeft, visualTop, 'X', -1)
-  var {visualTop} = recursiveGetCoord(rgbMatrix, visualLeft, visualTop, 'Y', 1)
-  var {visualTop} = recursiveGetCoord(rgbMatrix, visualLeft, visualTop, 'Y', -1)
+  var {visualLeft} = recursiveGetCoord(rgbMatrix, visualLeft, visualTop, 'X', 1 / ROUNDS)
+  var {visualLeft} = recursiveGetCoord(rgbMatrix, visualLeft, visualTop, 'X', -1 / ROUNDS)
+  var {visualTop} = recursiveGetCoord(rgbMatrix, visualLeft, visualTop, 'Y', 1 / ROUNDS)
+  var {visualTop} = recursiveGetCoord(rgbMatrix, visualLeft, visualTop, 'Y', -1 / ROUNDS)
 
   return {visualLeft, visualTop}
 }
 
-function recursiveGetCoord(rgbMatrix, visualLeft, visualTop, currentAxis, currentPolarity) {
-  var bgColor = normalizeColor(rgbMatrix[0][0])
-  var height = rgbMatrix.length
-  var width = rgbMatrix[0].length
+function recursiveGetCoord(rgbMatrix, visualLeft, visualTop, currentAxis, stepSize) {
+  const bgColor = normalizeColor(rgbMatrix[0][0])
+  const height = rgbMatrix.length
+  const width = rgbMatrix[0].length
 
   var visualLeftToApply = visualLeft
   var visualTopToApply = visualTop
@@ -55,8 +55,6 @@ function recursiveGetCoord(rgbMatrix, visualLeft, visualTop, currentAxis, curren
     maxDiff: Math.max(bgColor.r, 255 - bgColor.r) + Math.max(bgColor.g, 255 - bgColor.g) + Math.max(bgColor.b, 255 - bgColor.b),
     maxDistance: getDistance([0, 0], [width, height])
   }
-
-  var stepSize = 1 / ROUNDS * currentPolarity
 
   var newVisualLeft = visualLeft
   var newVisualTop = visualTop
@@ -79,7 +77,6 @@ function recursiveGetCoord(rgbMatrix, visualLeft, visualTop, currentAxis, curren
     } else {
       newVisualTop += stepSize
     }
-
     oldCenterIntensity = newCenterIntensity
     newCenterIntensity = getCenterIntensity(rgbMatrix, newVisualLeft, newVisualTop, ops)
   }
