@@ -70,11 +70,11 @@ const App = React.createClass({
     const isDark = nColor.r + nColor.g + nColor.b < 255 * 3 / 1.7
 
     const recommendations = _.compact([
-      resultLeft > .5 && <span>move it left by <b>{toPercent(resultLeft * .50 - .25)}%</b></span>,
-      resultLeft < .5 && <span>move it right by <b>{toPercent((1 - resultLeft) * .50 - .25)}%</b></span>,
+      resultLeft > .5 && <span>move it left by <b>{toPercent(resultLeft - 0.5)}%</b></span>,
+      resultLeft < .5 && <span>move it right by <b>{toPercent((1 - resultLeft) - 0.5)}%</b></span>,
       resultLeft !== .5 && resultTop !== .5 && <span> and </span>,
-      resultTop > .5 && <span>move it up by <b>{toPercent(resultTop * .50 - .25)}%</b></span>,
-      resultTop < .5 && <span>move it down by <b>{toPercent((1 - resultTop) * .50 - .25)}%</b></span>,
+      resultTop > .5 && <span>move it up by <b>{toPercent(resultTop - 0.5)}%</b></span>,
+      resultTop < .5 && <span>move it down by <b>{toPercent((1 - resultTop) - 0.5)}%</b></span>,
     ])
 
     return <div className='app' style={{backgroundColor: bgColorCodeDark, color: isDark ? '#fff' : '#333'}}>
