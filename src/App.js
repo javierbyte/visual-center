@@ -81,34 +81,12 @@ const App = React.createClass({
       <div className='app-header'>
         <h1 className='app-title'>Visual Center</h1>
         <div>
-          This tool will find the visual center of your images.
+          Find the visual center of your images.
         </div>
 
         <Dropzone onDrop={this.onDrop} className='dropzone'>
           <div>Start by selecting your image. Click or drop here.</div>
         </Dropzone>
-      </div>
-
-      <div className='app-control-container'>
-        <label className='app-control'>
-          <input
-            type='checkbox'
-            checked={showGuides}
-            onChange={() => {this.setState({showGuides: !showGuides})}} />
-          <div>
-            Show guides
-          </div>
-        </label>
-
-        <label className='app-control'>
-          <input
-            type='checkbox'
-            checked={useCircle}
-            onChange={() => {this.setState({useCircle: !useCircle})}} />
-          <div>
-            Make the canvas a circle
-          </div>
-        </label>
       </div>
 
       <div className={`demo-image-comparison ${showGuides ? '-show-guides' : ''} ${useCircle ? '-use-circle' : ''}`}>
@@ -136,6 +114,28 @@ const App = React.createClass({
               }}/>
           </div>
         </div>
+      </div>
+
+      <div className='app-control-container'>
+        <label className='app-control'>
+          <input
+            type='checkbox'
+            checked={showGuides}
+            onChange={() => {this.setState({showGuides: !showGuides})}} />
+          <div>
+            Show guides
+          </div>
+        </label>
+
+        <label className='app-control'>
+          <input
+            type='checkbox'
+            checked={useCircle}
+            onChange={() => {this.setState({useCircle: !useCircle})}} />
+          <div>
+            Make the canvas a circle
+          </div>
+        </label>
       </div>
 
       {base64 && (<div className='padding-2 results'>
