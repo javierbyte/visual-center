@@ -19,7 +19,7 @@
   },
   "keywords": [],
   "author": "Javier Bórquez <hi@javier.xyz> (http://github.com/javierbyte)",
-  "license": "CC0-1.0",
+  "license": "MIT",
   "homepage": "https://github.com/javierbyte/visual-center",
   "devDependencies": {
     "babel-core": "^6.6.5",
