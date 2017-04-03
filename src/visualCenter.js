@@ -1,133 +1,150 @@
-const base64ImageUtils = require('base64-image-utils')
-const _ = require('lodash')
-const {base64ImageToRGBMatrix} = base64ImageUtils
+const base64ImageUtils = require('base64-image-utils');
+const _ = require('lodash');
+const { base64ImageToRGBMatrix } = base64ImageUtils;
 
-const COLOR_DIFF_WEIGHT_EXPO = 0.333
-const ROUNDS = 100
+const COLOR_DIFF_WEIGHT_EXPO = 0.333;
+const ROUNDS = 100;
 
 function visualCenter(base64, callback, opts = {}) {
-  const {oldLeft = 0.5, oldTop = 0.5, successCenterIntents, centerIntents} = opts
+  const { oldLeft = 0.5, oldTop = 0.5, successCenterIntents, centerIntents } = opts;
 
-  base64ImageToRGBMatrix(base64, (err, rgbMatrix) => {
-    const height = rgbMatrix.length
-    const width = rgbMatrix[0].length
-    const bgColor = normalizeColor(rgbMatrix[0][0])
+  base64ImageToRGBMatrix(
+    base64,
+    (err, rgbMatrix) => {
+      const height = rgbMatrix.length;
+      const width = rgbMatrix[0].length;
+      const bgColor = normalizeColor(rgbMatrix[0][0]);
 
-    const {visualLeft, visualTop} = calculateVisualCenter(rgbMatrix)
+      const { visualLeft, visualTop } = calculateVisualCenter(rgbMatrix);
 
-    callback(null, {
-      visualTop: visualTop,
-      visualLeft: visualLeft,
+      callback(null, {
+        visualTop: visualTop,
+        visualLeft: visualLeft,
 
-      bgColor: bgColor,
-      width: width,
-      height: height
-    })
-  }, {
-    size: 100
-  });
+        bgColor: bgColor,
+        width: width,
+        height: height
+      });
+    },
+    {
+      size: 100
+    }
+  );
 }
 
 function calculateVisualCenter(rgbMatrix) {
-  var visualLeft = 0.5
-  var visualTop = 0.5
+  var visualLeft = 0.5;
+  var visualTop = 0.5;
 
-  var {visualLeft} = recursiveGetCoord(rgbMatrix, visualLeft, visualTop, 'X', 1 / ROUNDS)
-  var {visualLeft} = recursiveGetCoord(rgbMatrix, visualLeft, visualTop, 'X', -1 / ROUNDS)
-  var {visualTop} = recursiveGetCoord(rgbMatrix, visualLeft, visualTop, 'Y', 1 / ROUNDS)
-  var {visualTop} = recursiveGetCoord(rgbMatrix, visualLeft, visualTop, 'Y', -1 / ROUNDS)
+  var { visualLeft } = recursiveGetCoord(rgbMatrix, visualLeft, visualTop, 'X', 1 / ROUNDS);
+  var { visualLeft } = recursiveGetCoord(rgbMatrix, visualLeft, visualTop, 'X', -1 / ROUNDS);
+  var { visualTop } = recursiveGetCoord(rgbMatrix, visualLeft, visualTop, 'Y', 1 / ROUNDS);
+  var { visualTop } = recursiveGetCoord(rgbMatrix, visualLeft, visualTop, 'Y', -1 / ROUNDS);
 
-  return {visualLeft, visualTop}
+  return { visualLeft, visualTop };
 }
 
 function recursiveGetCoord(rgbMatrix, visualLeft, visualTop, currentAxis, stepSize) {
-  const bgColor = normalizeColor(rgbMatrix[0][0])
-  const height = rgbMatrix.length
-  const width = rgbMatrix[0].length
+  const bgColor = normalizeColor(rgbMatrix[0][0]);
+  const height = rgbMatrix.length;
+  const width = rgbMatrix[0].length;
 
-  var visualLeftToApply = visualLeft
-  var visualTopToApply = visualTop
+  var visualLeftToApply = visualLeft;
+  var visualTopToApply = visualTop;
 
   const ops = {
     bgColor,
     height: rgbMatrix.length,
     width: rgbMatrix[0].length,
-    maxDiff: Math.max(bgColor.r, 255 - bgColor.r) + Math.max(bgColor.g, 255 - bgColor.g) + Math.max(bgColor.b, 255 - bgColor.b),
+    maxDiff: Math.max(bgColor.r, 255 - bgColor.r) +
+      Math.max(bgColor.g, 255 - bgColor.g) +
+      Math.max(bgColor.b, 255 - bgColor.b),
     maxDistance: getDistance([0, 0], [width, height])
-  }
+  };
 
-  var newVisualLeft = visualLeft
-  var newVisualTop = visualTop
+  var newVisualLeft = visualLeft;
+  var newVisualTop = visualTop;
 
   if (currentAxis === 'X') {
-    newVisualLeft += stepSize
+    newVisualLeft += stepSize;
   } else {
-    newVisualTop += stepSize
+    newVisualTop += stepSize;
   }
 
-  var oldCenterIntensity = getCenterIntensity(rgbMatrix, visualLeft, visualTop, ops)
-  var newCenterIntensity = getCenterIntensity(rgbMatrix, newVisualLeft, newVisualTop, ops)
+  var oldCenterIntensity = getCenterIntensity(rgbMatrix, visualLeft, visualTop, ops);
+  var newCenterIntensity = getCenterIntensity(rgbMatrix, newVisualLeft, newVisualTop, ops);
 
   while (newCenterIntensity > oldCenterIntensity) {
-    visualLeftToApply = newVisualLeft
-    visualTopToApply = newVisualTop
+    visualLeftToApply = newVisualLeft;
+    visualTopToApply = newVisualTop;
 
     if (currentAxis === 'X') {
-      newVisualLeft += stepSize
+      newVisualLeft += stepSize;
     } else {
-      newVisualTop += stepSize
+      newVisualTop += stepSize;
     }
-    oldCenterIntensity = newCenterIntensity
-    newCenterIntensity = getCenterIntensity(rgbMatrix, newVisualLeft, newVisualTop, ops)
+    oldCenterIntensity = newCenterIntensity;
+    newCenterIntensity = getCenterIntensity(rgbMatrix, newVisualLeft, newVisualTop, ops);
   }
 
   return {
     visualLeft: visualLeftToApply,
     visualTop: visualTopToApply
-  }
+  };
 }
 
 function getCenterIntensity(rgbMatrix, visualLeft, visualTop, ops) {
-  const {bgColor, height, width, maxDiff, maxDistance} = ops
+  const { bgColor, height, width, maxDiff, maxDistance } = ops;
 
-  const centerCol = visualTop * height
-  const centerRow = visualLeft * width
-  const centerPoint = [centerCol, centerRow]
+  const centerCol = visualTop * height;
+  const centerRow = visualLeft * width;
+  const centerPoint = [centerCol, centerRow];
 
-  return _.reduce(rgbMatrix, (resRow, row, rowIdx) => {
-    return resRow + _.reduce(row, (resCol, col, colIdx) => {
-      const cellColorDiff = rgbDiff(bgColor, col, maxDiff)
+  return _.reduce(
+    rgbMatrix,
+    (resRow, row, rowIdx) => {
+      return resRow +
+        _.reduce(
+          row,
+          (resCol, col, colIdx) => {
+            const cellColorDiff = rgbDiff(bgColor, col, maxDiff);
 
-      if (!cellColorDiff) return resCol
+            if (!cellColorDiff) return resCol;
 
-      const cellDistance = getDistance(centerPoint, [rowIdx, colIdx])
-      const cellColorWeight = cellColorDiff * Math.pow((1 - cellDistance / maxDistance), 0.5) * 1000
+            const cellDistance = getDistance(centerPoint, [rowIdx, colIdx]);
+            const cellColorWeight = cellColorDiff * Math.pow(1 - cellDistance / maxDistance, 0.5) * 1000;
 
-      return resCol + cellColorWeight;
-    }, 0)
-  }, 0)
+            return resCol + cellColorWeight;
+          },
+          0
+        );
+    },
+    0
+  );
 }
 
 function getDistance(pointA, pointB) {
-  return Math.pow(Math.pow(pointA[0] - pointB[0], 2) + Math.pow(pointA[1] - pointB[1], 2), 0.5)
+  return Math.pow(Math.pow(pointA[0] - pointB[0], 2) + Math.pow(pointA[1] - pointB[1], 2), 0.5);
 }
 
 function normalizeColor(color) {
   return {
-    r: Math.floor(color.r * (color.a / 255) + 255 * (1 - (color.a / 255))),
-    g: Math.floor(color.g * (color.a / 255) + 255 * (1 - (color.a / 255))),
-    b: Math.floor(color.b * (color.a / 255) + 255 * (1 - (color.a / 255))),
+    r: Math.floor(color.r * (color.a / 255) + 255 * (1 - color.a / 255)),
+    g: Math.floor(color.g * (color.a / 255) + 255 * (1 - color.a / 255)),
+    b: Math.floor(color.b * (color.a / 255) + 255 * (1 - color.a / 255)),
     a: 255
-  }
+  };
 }
 
 function rgbDiff(baseColor, testColor, maxDiff) {
-  if (testColor.a === 0) return 0
+  if (testColor.a === 0) return 0;
 
-  const diff = Math.abs(baseColor.r - testColor.r) + Math.abs(baseColor.g - testColor.g) + Math.abs(baseColor.b - testColor.b)
-  const result = Math.round(Math.pow(diff / maxDiff, COLOR_DIFF_WEIGHT_EXPO)  * (testColor.a / 255) * 1000)
+  const diff = Math.abs(baseColor.r - testColor.r) +
+    Math.abs(baseColor.g - testColor.g) +
+    Math.abs(baseColor.b - testColor.b);
+  const result = Math.round(Math.pow(diff / maxDiff, COLOR_DIFF_WEIGHT_EXPO) * (testColor.a / 255) * 1000);
 
-  return result
+  return result;
 }
 
-module.exports = visualCenter
+module.exports = visualCenter;
