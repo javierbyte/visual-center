@@ -1,8 +1,14 @@
 {
-  "name": "visual-center2",
-  "version": "0.1.0",
-  "private": true,
+  "name": "visual-center",
+  "version": "1.2.0",
+  "private": false,
   "homepage": "https://javier.xyz/visual-center/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/javierbyte/clashjs"
+  },
+  "author": "Javier Bórquez <hi@javier.xyz> (http://github.com/javierbyte)",
+  "license": "BSD-3-Clause",
   "dependencies": {
     "base64-image-utils": "^1.1.2",
     "lodash": "^4.17.15",
