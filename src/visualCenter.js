@@ -5,7 +5,7 @@ const { base64ImageToRGBMatrix } = base64ImageUtils;
 
 const COLOR_DIFF_WEIGHT_EXPO = 0.333;
 
-const ROUNDS = 100;
+const ROUNDS = 200;
 const SIZE = 420;
 
 function visualCenter(base64, callback, opts = {}) {
@@ -147,7 +147,7 @@ function rgbDiff(baseColor, testColor, maxDiff) {
 
   const diff =
     Math.abs(baseColor.r - testColor.r) + Math.abs(baseColor.g - testColor.g) + Math.abs(baseColor.b - testColor.b);
-  const result = Math.round(Math.pow(diff / maxDiff, COLOR_DIFF_WEIGHT_EXPO) * (testColor.a / 255) * 1000);
+  const result = Math.pow(diff / maxDiff, COLOR_DIFF_WEIGHT_EXPO) * (testColor.a / 255) * 1000;
 
   return result;
 }

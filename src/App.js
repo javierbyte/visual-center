@@ -11,14 +11,14 @@ class App extends React.Component {
     super();
 
     this.state = {
-      image64: null,
+      base64: null,
 
       showGuides: true,
       useCircle: true,
       useSpin: false,
 
       visualLeft: 0.5,
-      visualTop: 0.5,
+      visualTop: 0.605,
 
       backgroundColor: {
         r: 255,
@@ -30,7 +30,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.processBase64(demoImage);
+    this.setState({
+      base64: demoImage
+    });
+    // this.processBase64(demoImage);
   }
 
   onDrop(fileArray) {
@@ -130,19 +133,19 @@ class App extends React.Component {
               {new Array(32).fill("").map((el, elIdx, arr) => {
                 const tot = arr.length * 3;
 
-                const opacity = 0 + 0.2 * ((arr.length - elIdx) / arr.length)
+                const opacity = 0 + 0.2 * ((arr.length - elIdx) / arr.length);
 
                 const shadowStyle = {
-                      transform: `translatey(-${.5 * 100}%) translatex(${-.5 * 100}%) rotate(-${(360 / tot) * elIdx}deg)`,
-                      opacity: opacity,
-                      transformOrigin: `${.5 * 100}% ${.5 * 100}%`
-                    };
+                  transform: `translatey(-${0.5 * 100}%) translatex(${-0.5 * 100}%) rotate(-${(360 / tot) * elIdx}deg)`,
+                  opacity: opacity,
+                  transformOrigin: `${0.5 * 100}% ${0.5 * 100}%`
+                };
 
-                    const normalStyle = {
-                      transform: `translatey(-${.5 * 100}%) translatex(${-.5 * 100}%) rotate(0deg)`,
-                      opacity: 0,
-                      transformOrigin: `${.5 * 100}% ${.5 * 100}%`
-                    }
+                const normalStyle = {
+                  transform: `translatey(-${0.5 * 100}%) translatex(${-0.5 * 100}%) rotate(0deg)`,
+                  opacity: 0,
+                  transformOrigin: `${0.5 * 100}% ${0.5 * 100}%`
+                };
 
                 return (
                   <img
@@ -170,19 +173,20 @@ class App extends React.Component {
               {new Array(32).fill("").map((el, elIdx, arr) => {
                 const tot = arr.length * 3;
 
-                const opacity = 0 + 0.2 * ((arr.length - elIdx) / arr.length)
+                const opacity = 0 + 0.2 * ((arr.length - elIdx) / arr.length);
 
                 const shadowStyle = {
-                      transform: `translatey(-${resultTop * 100}%) translatex(${-resultLeft * 100}%) rotate(-${(360 / tot) * elIdx}deg)`,
-                      opacity: opacity,
-                      transformOrigin: `${resultLeft * 100}% ${resultTop * 100}%`
-                    };
+                  transform: `translatey(-${resultTop * 100}%) translatex(${-resultLeft * 100}%) rotate(-${(360 / tot) *
+                    elIdx}deg)`,
+                  opacity: opacity,
+                  transformOrigin: `${resultLeft * 100}% ${resultTop * 100}%`
+                };
 
-                    const normalStyle = {
-                      transform: `translatey(-${resultTop * 100}%) translatex(${-resultLeft * 100}%) rotate(0deg)`,
-                      opacity: 0,
-                      transformOrigin: `${resultLeft * 100}% ${resultTop * 100}%`
-                    }
+                const normalStyle = {
+                  transform: `translatey(-${resultTop * 100}%) translatex(${-resultLeft * 100}%) rotate(0deg)`,
+                  opacity: 0,
+                  transformOrigin: `${resultLeft * 100}% ${resultTop * 100}%`
+                };
 
                 return (
                   <img
