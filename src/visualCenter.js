@@ -1,9 +1,12 @@
-const base64ImageUtils = require('base64-image-utils');
-const _ = require('lodash');
+import base64ImageUtils from "base64-image-utils";
+
+const _ = require("lodash");
 const { base64ImageToRGBMatrix } = base64ImageUtils;
 
 const COLOR_DIFF_WEIGHT_EXPO = 0.333;
+
 const ROUNDS = 100;
+const SIZE = 420;
 
 function visualCenter(base64, callback, opts = {}) {
   const { oldLeft = 0.5, oldTop = 0.5, successCenterIntents, centerIntents } = opts;
@@ -27,7 +30,7 @@ function visualCenter(base64, callback, opts = {}) {
       });
     },
     {
-      size: 100
+      size: SIZE
     }
   );
 }
@@ -36,10 +39,10 @@ function calculateVisualCenter(rgbMatrix) {
   var visualLeft = 0.5;
   var visualTop = 0.5;
 
-  var { visualLeft } = recursiveGetCoord(rgbMatrix, visualLeft, visualTop, 'X', 1 / ROUNDS);
-  var { visualLeft } = recursiveGetCoord(rgbMatrix, visualLeft, visualTop, 'X', -1 / ROUNDS);
-  var { visualTop } = recursiveGetCoord(rgbMatrix, visualLeft, visualTop, 'Y', 1 / ROUNDS);
-  var { visualTop } = recursiveGetCoord(rgbMatrix, visualLeft, visualTop, 'Y', -1 / ROUNDS);
+  var { visualLeft } = recursiveGetCoord(rgbMatrix, visualLeft, visualTop, "X", 1 / ROUNDS);
+  var { visualLeft } = recursiveGetCoord(rgbMatrix, visualLeft, visualTop, "X", -1 / ROUNDS);
+  var { visualTop } = recursiveGetCoord(rgbMatrix, visualLeft, visualTop, "Y", 1 / ROUNDS);
+  var { visualTop } = recursiveGetCoord(rgbMatrix, visualLeft, visualTop, "Y", -1 / ROUNDS);
 
   return { visualLeft, visualTop };
 }
@@ -56,7 +59,8 @@ function recursiveGetCoord(rgbMatrix, visualLeft, visualTop, currentAxis, stepSi
     bgColor,
     height: rgbMatrix.length,
     width: rgbMatrix[0].length,
-    maxDiff: Math.max(bgColor.r, 255 - bgColor.r) +
+    maxDiff:
+      Math.max(bgColor.r, 255 - bgColor.r) +
       Math.max(bgColor.g, 255 - bgColor.g) +
       Math.max(bgColor.b, 255 - bgColor.b),
     maxDistance: getDistance([0, 0], [width, height])
@@ -65,7 +69,7 @@ function recursiveGetCoord(rgbMatrix, visualLeft, visualTop, currentAxis, stepSi
   var newVisualLeft = visualLeft;
   var newVisualTop = visualTop;
 
-  if (currentAxis === 'X') {
+  if (currentAxis === "X") {
     newVisualLeft += stepSize;
   } else {
     newVisualTop += stepSize;
@@ -78,7 +82,7 @@ function recursiveGetCoord(rgbMatrix, visualLeft, visualTop, currentAxis, stepSi
     visualLeftToApply = newVisualLeft;
     visualTopToApply = newVisualTop;
 
-    if (currentAxis === 'X') {
+    if (currentAxis === "X") {
       newVisualLeft += stepSize;
     } else {
       newVisualTop += stepSize;
@@ -103,7 +107,8 @@ function getCenterIntensity(rgbMatrix, visualLeft, visualTop, ops) {
   return _.reduce(
     rgbMatrix,
     (resRow, row, rowIdx) => {
-      return resRow +
+      return (
+        resRow +
         _.reduce(
           row,
           (resCol, col, colIdx) => {
@@ -117,7 +122,8 @@ function getCenterIntensity(rgbMatrix, visualLeft, visualTop, ops) {
             return resCol + cellColorWeight;
           },
           0
-        );
+        )
+      );
     },
     0
   );
@@ -139,12 +145,12 @@ function normalizeColor(color) {
 function rgbDiff(baseColor, testColor, maxDiff) {
   if (testColor.a === 0) return 0;
 
-  const diff = Math.abs(baseColor.r - testColor.r) +
-    Math.abs(baseColor.g - testColor.g) +
-    Math.abs(baseColor.b - testColor.b);
+  const diff =
+    Math.abs(baseColor.r - testColor.r) + Math.abs(baseColor.g - testColor.g) + Math.abs(baseColor.b - testColor.b);
   const result = Math.round(Math.pow(diff / maxDiff, COLOR_DIFF_WEIGHT_EXPO) * (testColor.a / 255) * 1000);
 
   return result;
 }
 
-module.exports = visualCenter;
+// module.exports = visualCenter;
+export default visualCenter;
