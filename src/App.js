@@ -18,7 +18,7 @@ class App extends React.Component {
       useSpin: false,
 
       visualLeft: 0.5,
-      visualTop: 0.605,
+      visualTop: 0.66,
 
       backgroundColor: {
         r: 255,
@@ -37,8 +37,8 @@ class App extends React.Component {
   }
 
   onDrop(fileArray) {
-    var file = fileArray[0];
-    var reader = new FileReader();
+    const file = fileArray[0];
+    const reader = new FileReader();
 
     reader.addEventListener(
       "load",
@@ -55,7 +55,7 @@ class App extends React.Component {
 
   processBase64(base64) {
     visualCenter(base64, (err, result) => {
-      var { visualTop, visualLeft, bgColor, centerIntensity } = result;
+      const { visualTop, visualLeft, bgColor } = result;
 
       this.setState({
         visualTop: visualTop,
@@ -107,11 +107,12 @@ class App extends React.Component {
     return (
       <div className="app" style={{ backgroundColor: bgColorCodeDark, color: isDark ? "#fff" : "#333" }}>
         <div className="app-header">
-          <h1 className="app-title">Visual Center</h1>
-          <div>Find the visual center of your images.</div>
-
           <Dropzone onDrop={this.onDrop.bind(this)} className="dropzone">
-            <div>Start by selecting your image. Click or drop here.</div>
+            <div>
+              <h1 className="app-title">Visual Center</h1>
+              <div>Find the visual center of your images.</div>
+              <div style={{marginTop: "0.5rem"}}>Start by selecting your image. Click or drop here.</div>
+            </div>
           </Dropzone>
         </div>
 
@@ -133,7 +134,9 @@ class App extends React.Component {
               {new Array(32).fill("").map((el, elIdx, arr) => {
                 const tot = arr.length * 3;
 
-                const opacity = 0 + 0.2 * ((arr.length - elIdx) / arr.length);
+                const opacity = 0.1 + 0.3 * ((arr.length - elIdx) / arr.length);
+
+                console.warn({ bgColorCode });
 
                 const shadowStyle = {
                   transform: `translatey(-${0.5 * 100}%) translatex(${-0.5 * 100}%) rotate(-${(360 / tot) * elIdx}deg)`,
@@ -173,7 +176,7 @@ class App extends React.Component {
               {new Array(32).fill("").map((el, elIdx, arr) => {
                 const tot = arr.length * 3;
 
-                const opacity = 0 + 0.2 * ((arr.length - elIdx) / arr.length);
+                const opacity = 0.05 + 0.3 * ((arr.length - elIdx) / arr.length);
 
                 const shadowStyle = {
                   transform: `translatey(-${resultTop * 100}%) translatex(${-resultLeft * 100}%) rotate(-${(360 / tot) *
@@ -251,7 +254,7 @@ class App extends React.Component {
             )}
             <div>
               <br />
-              Interested in <strong>Sketch</strong> and <strong>Illustrator</strong> plugins?{" "}
+              Interested in <strong>Sketch</strong> and <strong>Figma</strong> plugins?{" "}
               <a href="http://eepurl.com/b5_E-j" target="_blank">
                 <strong>Join the newsletter!</strong>
               </a>
@@ -261,7 +264,7 @@ class App extends React.Component {
 
         <div className="credits padding-2">
           <div>
-            More experiments:{" "}
+            Other experiments:{" "}
             <a href="http://javier.xyz/img2css">
               <b>img2css</b> (convert images to pure css)
             </a>
@@ -285,7 +288,7 @@ class App extends React.Component {
             <a href="http://javier.xyz/">
               <b>javierbyte</b>
             </a>
-            . (Thanks <a href="http://skycatch.com">Skycatch</a> for letting me use our logo).
+            .
           </div>
         </div>
       </div>

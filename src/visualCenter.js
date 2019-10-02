@@ -9,7 +9,8 @@ const ROUNDS = 200;
 const SIZE = 420;
 
 function visualCenter(base64, callback, opts = {}) {
-  const { oldLeft = 0.5, oldTop = 0.5, successCenterIntents, centerIntents } = opts;
+
+  console.log(base64)
 
   base64ImageToRGBMatrix(
     base64,
