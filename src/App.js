@@ -139,6 +139,7 @@ class App extends React.Component {
                 console.warn({ bgColorCode });
 
                 const shadowStyle = {
+                  outline: "none",
                   transform: `translatey(-${0.5 * 100}%) translatex(${-0.5 * 100}%) rotate(-${(360 / tot) * elIdx}deg)`,
                   opacity: opacity,
                   transformOrigin: `${0.5 * 100}% ${0.5 * 100}%`
@@ -179,6 +180,7 @@ class App extends React.Component {
                 const opacity = 0.05 + 0.3 * ((arr.length - elIdx) / arr.length);
 
                 const shadowStyle = {
+                  outline: "none",
                   transform: `translatey(-${resultTop * 100}%) translatex(${-resultLeft * 100}%) rotate(-${(360 / tot) *
                     elIdx}deg)`,
                   opacity: opacity,

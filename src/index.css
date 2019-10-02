@@ -96,8 +96,12 @@ strong {
   transition: opacity 0.3s, transform 0.3s;
 }
 
+.-show-guides .demo-image {
+  outline: 1px dashed rgba(128, 128, 128, 0.2);
+}
+
 .demo-image:hover {
-  outline: 1px dashed #f00;
+  outline: 1px dashed rgba(128, 128, 128, 0.3);
 }
 
 .demo-image-container {
