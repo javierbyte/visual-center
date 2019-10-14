@@ -6,6 +6,8 @@ import _ from "lodash";
 import visualCenter from "./visualCenter.js";
 import demoImage from "./assets/demo.js";
 
+const BLADES = 24;
+
 class App extends React.Component {
   constructor(props) {
     super();
@@ -18,7 +20,7 @@ class App extends React.Component {
       useSpin: false,
 
       visualLeft: 0.5,
-      visualTop: 0.66,
+      visualTop: 0.667,
 
       backgroundColor: {
         r: 255,
@@ -111,7 +113,7 @@ class App extends React.Component {
             <div>
               <h1 className="app-title">Visual Center</h1>
               <div>Find the visual center of your images.</div>
-              <div style={{marginTop: "0.5rem"}}>Start by selecting your image. Click or drop here.</div>
+              <div style={{ marginTop: "0.5rem" }}>Start by selecting your image. Click or drop here.</div>
             </div>
           </Dropzone>
         </div>
@@ -131,7 +133,7 @@ class App extends React.Component {
                 className="demo-image"
               />
 
-              {new Array(32).fill("").map((el, elIdx, arr) => {
+              {new Array(BLADES).fill("").map((el, elIdx, arr) => {
                 const tot = arr.length * 3;
 
                 const opacity = 0.1 + 0.3 * ((arr.length - elIdx) / arr.length);
@@ -174,7 +176,7 @@ class App extends React.Component {
                 }}
               />
 
-              {new Array(32).fill("").map((el, elIdx, arr) => {
+              {new Array(BLADES).fill("").map((el, elIdx, arr) => {
                 const tot = arr.length * 3;
 
                 const opacity = 0.05 + 0.3 * ((arr.length - elIdx) / arr.length);
