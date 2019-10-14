@@ -1,7 +1,7 @@
 # Visual Center.
 This is a tool that will find the visual center of your images.
 
-[![visual-center](gh/screenshot.png)](http://javier.xyz/visual-center/)
+[![visual-center](gh/screenshot.jpg)](http://javier.xyz/visual-center/)
 
 Why is this important: https://medium.com/@lukejonesme/optical-adjustment-b55492a1165c
 
