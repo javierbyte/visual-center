@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/visual-center/static/css/main.916e83f9.chunk.css",
+    "main.css": "/visual-center/static/css/main.ee579ff1.chunk.css",
     "main.js": "/visual-center/static/js/main.12e935ba.chunk.js",
     "main.js.map": "/visual-center/static/js/main.12e935ba.chunk.js.map",
     "runtime-main.js": "/visual-center/static/js/runtime-main.ed9d6e5d.js",
@@ -8,8 +8,8 @@
     "static/js/2.62627424.chunk.js": "/visual-center/static/js/2.62627424.chunk.js",
     "static/js/2.62627424.chunk.js.map": "/visual-center/static/js/2.62627424.chunk.js.map",
     "index.html": "/visual-center/index.html",
-    "precache-manifest.dcb640bd94915705a1cd6e17d2ec17a1.js": "/visual-center/precache-manifest.dcb640bd94915705a1cd6e17d2ec17a1.js",
+    "precache-manifest.7885f3beb06784ed4019564e2bdc3fed.js": "/visual-center/precache-manifest.7885f3beb06784ed4019564e2bdc3fed.js",
     "service-worker.js": "/visual-center/service-worker.js",
-    "static/css/main.916e83f9.chunk.css.map": "/visual-center/static/css/main.916e83f9.chunk.css.map"
+    "static/css/main.ee579ff1.chunk.css.map": "/visual-center/static/css/main.ee579ff1.chunk.css.map"
   }
 }
