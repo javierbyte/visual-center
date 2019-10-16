@@ -26,21 +26,13 @@ strong {
   font-weight: 400;
 }
 
-.credits {
-  font-weight: 300;
-  font-size: 0.9em;
-}
-.credits a {
-  font-weight: 400;
-}
-
 .app {
   width: 100vw;
   min-height: 100vh;
 }
 
 .app-header {
-  padding: 2rem 2rem 0;
+  padding: 1.5rem 2rem 0;
 }
 
 .app-title {
@@ -93,7 +85,7 @@ strong {
   width: 25vmin;
   height: auto;
   z-index: 2;
-  transition: opacity 0.3s, transform 0.3s;
+  transition: opacity 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
 .-show-guides .demo-image {
@@ -197,5 +189,65 @@ strong {
 @media screen and (max-width: 640px) {
   .app {
     padding-top: 1rem;
+  }
+}
+
+/* CREDITS */
+.credits {
+  position: absolute;
+  bottom: 20vmin;
+  right: 0;
+  max-width: 10rem;
+  text-align: left;
+  font-size: 0.8rem;
+}
+
+.credits-header {
+  color: #777;
+  line-height: 1;
+  padding: 0.5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 0.7rem;
+  text-align: right;
+}
+
+.credits b {
+  display: block;
+  padding-bottom: 0.25rem;
+}
+
+.credits a {
+  border-radius: 1px;
+  display: block;
+  background: rgba(255, 255, 255, 0.25);
+  line-height: 1;
+  padding: 0.5rem;
+  color: #444;
+  margin: 1px;
+  text-decoration: none;
+  box-shadow: inset rgba(255, 255, 255, 0.1) 0 1px 0, rgba(0, 0, 0, 0.02) 0 1px 0;
+}
+.credits a:hover {
+  background: #fff;
+}
+@media screen and (max-width: 1200px) {
+  .credits {
+    position: relative;
+    max-width: none;
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 0 1rem;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 1rem;
+  }
+  .credits-header {
+    width: 4rem;
+  }
+  .credits a {
+    width: 7rem;
   }
 }

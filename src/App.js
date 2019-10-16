@@ -176,7 +176,7 @@ class App extends React.Component {
                 }}
               />
 
-              {new Array(BLADES).fill("").map((el, elIdx, arr) => {
+              {new Array(BLADES + 2).fill("").map((el, elIdx, arr) => {
                 const tot = arr.length * 3;
 
                 const opacity = 0.05 + 0.3 * ((arr.length - elIdx) / arr.length);
@@ -254,7 +254,7 @@ class App extends React.Component {
                 })}
               </div>
             ) : (
-              <div>Your image is perfectly centered! Congrats!</div>
+              <div style={{color: "#27AE60"}}>Your image is perfectly centered! Congrats!</div>
             )}
             <div>
               <br />
@@ -266,34 +266,33 @@ class App extends React.Component {
           </div>
         )}
 
-        <div className="credits padding-2">
-          <div>
-            Other experiments:{" "}
-            <a href="http://javier.xyz/img2css">
-              <b>img2css</b> (convert images to pure css)
-            </a>
-            ,{" "}
-            <a href="http://javier.xyz/cohesive-colors">
-              <b>cohesive-colors</b> (creates cohesive color palletes)
-            </a>
-            ,{" "}
-            <a href="http://javier.xyz/morphin">
-              <b>morphin</b> (css image morphing)
-            </a>
-            ,{" "}
-            <a href="http://javier.xyz/clashjs/">
-              <b>clashjs</b> (js ai battle game)
-            </a>
-            .
-          </div>
-          <br />
-          <div>
-            Created by{" "}
-            <a href="http://javier.xyz/">
-              <b>javierbyte</b>
-            </a>
-            .
-          </div>
+        <div className="credits">
+          <div className="credits-header">Other projects</div>
+          <a href="https://javier.xyz/img2css">
+            <b>img2css</b>
+            <div>Convert images to pure css.</div>
+          </a>
+          <a href="https://javier.xyz/cohesive-colors">
+            <b>cohesive-colors</b>
+            <div>Create cohesive color palletes.</div>
+          </a>
+          <a href="https://javier.xyz/morphin">
+            <b>morphin</b>
+            <div>CSS image morphing.</div>
+          </a>
+          <a href="https://javier.xyz/clashjs/">
+            <b>clashjs</b>
+            <div>JS AI Battle Game.</div>
+          </a>
+        </div>
+
+        <div>
+          {"Created by "}
+          <a href="https://javier.xyz/">
+            <b>javierbyte</b>
+          </a>
+          {"."}
+          <br /><br />
         </div>
       </div>
     );
