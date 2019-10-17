@@ -1,5 +1,6 @@
 {
   "name": "visual-center",
+  "description": "Tool that will find the visual center of your images / logos.",
   "version": "1.2.0",
   "private": false,
   "homepage": "https://javier.xyz/visual-center/",
