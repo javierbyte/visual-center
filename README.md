@@ -1,5 +1,5 @@
 # Visual Center.
-This is a tool that will find the visual center of your images.
+Tool that will find the visual center of your images / logos.
 
 [![visual-center](gh/screenshot.jpg)](http://javier.xyz/visual-center/)
 

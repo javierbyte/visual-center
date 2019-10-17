@@ -35,6 +35,7 @@ class App extends React.Component {
     this.setState({
       base64: demoImage
     });
+
     // this.processBase64(demoImage);
   }
 
@@ -138,8 +139,6 @@ class App extends React.Component {
 
                 const opacity = 0.1 + 0.3 * ((arr.length - elIdx) / arr.length);
 
-                console.warn({ bgColorCode });
-
                 const shadowStyle = {
                   outline: "none",
                   transform: `translatey(-${0.5 * 100}%) translatex(${-0.5 * 100}%) rotate(-${(360 / tot) * elIdx}deg)`,
@@ -239,7 +238,21 @@ class App extends React.Component {
                 this.setState({ useSpin: !useSpin });
               }}
             />
-            <div>Rotation Shadows</div>
+            <div>
+              Rotation Shadows{" "}
+              <span
+                style={{
+                  fontWeight: "500",
+                  lineHeight: 1,
+                  padding: "0.25rem",
+                  backgroundColor: "rgba(255,255,255,0.25)",
+                  display: "inline-block",
+                  color: "#c00",
+                  fontSize: "0.7rem"
+                }}>
+                NEW
+              </span>
+            </div>
           </label>
         </div>
 
@@ -254,7 +267,7 @@ class App extends React.Component {
                 })}
               </div>
             ) : (
-              <div style={{color: "#27AE60"}}>Your image is perfectly centered! Congrats!</div>
+              <div style={{ color: "#27AE60" }}>Your image is perfectly centered! Congrats!</div>
             )}
             <div>
               <br />
@@ -292,7 +305,8 @@ class App extends React.Component {
             <b>javierbyte</b>
           </a>
           {"."}
-          <br /><br />
+          <br />
+          <br />
         </div>
       </div>
     );
