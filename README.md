@@ -33,5 +33,5 @@ getVisualCenter(<base64Image>, function(err, result) {
 })
 ```
 
-## Licence.
-MIT.
+## License
+BSD-3-Clause License
