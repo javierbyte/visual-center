@@ -1,80 +1,14 @@
-* {
-  margin: 0;
-  padding: 0;
-  position: relative;
-}
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol";
-  font-size: 1em;
-  line-height: 1.5;
-  text-align: center;
-  background: #eeeeef;
-  color: #333;
-}
-
-a {
-  color: inherit;
-  color: #2980b9;
-  font-weight: 300;
-}
-a:hover {
-  color: #000;
-}
-strong {
-  font-weight: 400;
-}
-
-.app {
-  width: 100vw;
-  min-height: 100vh;
-}
-
-.app-header {
-  padding: 1.5rem 2rem 0;
-}
-
-.app-title {
-  font-size: 2em;
-}
-
-.social-share {
-  position: fixed;
-  top: 0;
-  left: 0;
-  padding: 1rem;
-}
-.social-share iframe {
-  margin-left: 0.5rem;
-}
-
-.dropzone {
-  cursor: pointer;
-  margin-top: 0.5rem;
-  outline: 2px dashed rgba(0, 0, 0, 0.25);
-  display: inline-block;
-  padding: 0.5rem 2rem 1rem;
-  background: rgba(255, 255, 255, 0.1);
-}
-.dropzone:hover {
-  outline: 2px dashed rgba(0, 0, 0, 0.4);
-  background: rgba(255, 255, 255, 0.15);
-}
-
-.padding-2 {
-  padding: 2rem;
-}
-
 .column {
-  width: 40vmin;
-  margin: 5vmin 2.5vmin 0;
+  margin: 0;
   display: inline-block;
 }
 
 .demo-image-comparison {
   text-align: center;
-  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+  gap: 1.5rem;
 }
 
 .demo-image {
@@ -85,15 +19,16 @@ strong {
   width: 25vmin;
   height: auto;
   z-index: 2;
-  transition: opacity 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: opacity 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),
+    transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
 .-show-guides .demo-image {
-  outline: 1px dashed rgba(128, 128, 128, 0.2);
+  outline: 1px dashed rgba(128, 128, 128, 0.33);
 }
 
 .demo-image:hover {
-  outline: 1px dashed rgba(128, 128, 128, 0.3);
+  outline: 1px dashed rgba(128, 128, 128, 0.5);
 }
 
 .demo-image-container {
@@ -101,16 +36,17 @@ strong {
   height: 40vmin;
   position: relative;
   transition: border-radius 0.3s, transform 0.3s;
-  box-shadow: rgba(0, 0, 0, 0.05) 0 1px 0, rgba(0, 0, 0, 0.05) 0 2px 8px;
+  box-shadow: rgba(0, 0, 0, 0.06) 0 0 0 1px, rgba(0, 0, 0, 0.02) 0 0 0 5px;
   border-radius: 0;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .demo-image-container.-first::before {
-  content: "Element Center";
+  content: 'Element Center';
   display: block;
   position: absolute;
   top: -2rem;
@@ -134,35 +70,8 @@ strong {
   z-index: 1;
 }
 
-.app-control-container {
-  padding: 1.5rem 0 0;
-}
-.app-control {
-  user-select: none;
-  -webkit-user-select: none;
-  padding: 0.25rem 1rem;
-  display: inline-block;
-}
-
-.app-control input {
-  margin-right: 0.5em;
-}
-
-.app-control input,
-.app-control div {
-  vertical-align: middle;
-  display: inline-block;
-}
-
-.results {
-  font-weight: 300;
-  font-size: 1.333em;
-  line-height: 1.4;
-}
-
-/* options */
 .-show-guides .demo-image-container::before {
-  content: "";
+  content: '';
   display: block;
   width: 100%;
   height: 0;
@@ -174,7 +83,7 @@ strong {
   left: 0;
 }
 .-show-guides .demo-image-container::after {
-  content: "";
+  content: '';
   display: block;
   width: 0;
   height: 100%;
@@ -184,70 +93,4 @@ strong {
   z-index: 3;
   top: 0;
   left: calc(50% - 1px);
-}
-
-@media screen and (max-width: 640px) {
-  .app {
-    padding-top: 1rem;
-  }
-}
-
-/* CREDITS */
-.credits {
-  position: absolute;
-  bottom: 20vmin;
-  right: 0;
-  max-width: 10rem;
-  text-align: left;
-  font-size: 0.8rem;
-}
-
-.credits-header {
-  color: #777;
-  line-height: 1;
-  padding: 0.5rem;
-  text-transform: uppercase;
-  font-weight: 700;
-  font-size: 0.7rem;
-  text-align: right;
-}
-
-.credits b {
-  display: block;
-  padding-bottom: 0.25rem;
-}
-
-.credits a {
-  border-radius: 1px;
-  display: block;
-  background: rgba(255, 255, 255, 0.25);
-  line-height: 1;
-  padding: 0.5rem;
-  color: #444;
-  margin: 1px;
-  text-decoration: none;
-  box-shadow: inset rgba(255, 255, 255, 0.1) 0 1px 0, rgba(0, 0, 0, 0.02) 0 1px 0;
-}
-.credits a:hover {
-  background: #fff;
-}
-@media screen and (max-width: 1200px) {
-  .credits {
-    position: relative;
-    max-width: none;
-    display: flex;
-    margin: 0 auto;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin: 0 1rem;
-    bottom: 0;
-    right: 0;
-    margin-bottom: 1rem;
-  }
-  .credits-header {
-    width: 4rem;
-  }
-  .credits a {
-    width: 7rem;
-  }
 }

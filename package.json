@@ -1,25 +1,29 @@
 {
   "name": "visual-center",
-  "description": "Tool that will find the visual center of your images / logos.",
+  "description": "Find the visual center of your images.",
   "version": "1.2.0",
   "private": false,
-  "homepage": "https://javier.xyz/visual-center/",
+  "homepage": "/",
+  "homepages": "https://javier.xyz/visual-center/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/javierbyte/clashjs"
+    "url": "https://github.com/javierbyte/visual-center/"
   },
   "author": "Javier Bórquez <hi@javier.xyz> (http://github.com/javierbyte)",
   "license": "BSD-3-Clause",
   "dependencies": {
     "base64-image-utils": "^1.1.2",
+    "capsize": "^2.0.0",
+    "jbx": "^1.5.0",
     "lodash": "^4.17.15",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-dropzone": "^4.0.0",
-    "react-scripts": "3.1.2"
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-dropzone": "^11.3.4",
+    "react-scripts": "^4.0.3",
+    "styled-components": "^5.3.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -42,6 +46,6 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^2.1.1"
+    "gh-pages": "^3.2.3"
   }
 }

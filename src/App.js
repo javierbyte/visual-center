@@ -1,325 +1,305 @@
-import React from "react";
+import React, { Fragment, useState, useEffect } from 'react';
 
-import Dropzone from "react-dropzone";
-import _ from "lodash";
+// import Dropzone from "react-dropzone";
+import _ from 'lodash';
 
-import visualCenter from "./visualCenter.js";
-import demoImage from "./assets/demo.js";
+import visualCenter from './visualCenter.js';
+import demoImage from './assets/demo.js';
 
-const BLADES = 24;
+import {
+  JBX,
+  MainHeader,
+  Text,
+  SmallText,
+  Space,
+  Container,
+  Dropzone,
+  Checkbox,
+  Inline,
+  A,
+  Ul,
+  Li
+} from 'jbx';
 
-class App extends React.Component {
-  constructor(props) {
-    super();
+const ROTATION_BLADES = 24;
 
-    this.state = {
-      base64: null,
-
-      showGuides: true,
-      useCircle: true,
-      useSpin: false,
-
-      visualLeft: 0.5,
-      visualTop: 0.667,
-
-      backgroundColor: {
-        r: 255,
-        g: 255,
-        b: 255,
-        a: 255
-      }
-    };
-  }
-
-  componentDidMount() {
-    this.setState({
-      base64: demoImage
-    });
-
-    // this.processBase64(demoImage);
-  }
-
-  onDrop(fileArray) {
-    const file = fileArray[0];
-    const reader = new FileReader();
-
-    reader.addEventListener(
-      "load",
-      data => {
-        this.processBase64(data.currentTarget.result);
+function onFileSelected(callback, evt) {
+  if (evt.target.files && evt.target.files[0]) {
+    const FR = new FileReader();
+    FR.addEventListener(
+      'load',
+      function (e) {
+        callback(e.target.result);
       },
       false
     );
-
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  }
-
-  processBase64(base64) {
-    visualCenter(base64, (err, result) => {
-      const { visualTop, visualLeft, bgColor } = result;
-
-      this.setState({
-        visualTop: visualTop,
-        visualLeft: visualLeft,
-
-        base64: base64,
-        backgroundColor: bgColor
-      });
-    });
-  }
-
-  render() {
-    const { base64, visualTop, visualLeft, showGuides, useCircle, useSpin, backgroundColor } = this.state;
-    const resultLeft = visualLeft;
-    const resultTop = visualTop;
-
-    const nColor = normalizeColor(backgroundColor);
-
-    const bgColorCode = `rgb(${nColor.r}, ${nColor.g}, ${nColor.b})`;
-    const bgColorCodeDark = `rgb(${Math.floor(nColor.r * 0.9)}, ${Math.floor(nColor.g * 0.9)}, ${Math.floor(
-      nColor.b * 0.9
-    )})`;
-    const isDark = nColor.r + nColor.g + nColor.b < (255 * 3) / 1.7;
-
-    const recommendations = _.compact([
-      resultLeft > 0.5 && (
-        <span>
-          move it left by <b>{toPercent(resultLeft - 0.5)}%</b>
-        </span>
-      ),
-      resultLeft < 0.5 && (
-        <span>
-          move it right by <b>{toPercent(1 - resultLeft - 0.5)}%</b>
-        </span>
-      ),
-      resultLeft !== 0.5 && resultTop !== 0.5 && <span> and </span>,
-      resultTop > 0.5 && (
-        <span>
-          move it up by <b>{toPercent(resultTop - 0.5)}%</b>
-        </span>
-      ),
-      resultTop < 0.5 && (
-        <span>
-          move it down by <b>{toPercent(1 - resultTop - 0.5)}%</b>
-        </span>
-      )
-    ]);
-
-    return (
-      <div className="app" style={{ backgroundColor: bgColorCodeDark, color: isDark ? "#fff" : "#333" }}>
-        <div className="app-header">
-          <Dropzone onDrop={this.onDrop.bind(this)} className="dropzone">
-            <div>
-              <h1 className="app-title">Visual Center</h1>
-              <div>Find the visual center of your images.</div>
-              <div style={{ marginTop: "0.5rem" }}>Start by selecting your image. Click or drop here.</div>
-            </div>
-          </Dropzone>
-        </div>
-
-        <div
-          className={`demo-image-comparison ${showGuides ? "-show-guides" : ""} ${useCircle ? "-use-circle" : ""} ${
-            useSpin ? "-use-spin" : ""
-          }`}>
-          <div className="column">
-            <div className="demo-image-container-title">Container Center</div>
-            <div className="demo-image-container" style={{ backgroundColor: bgColorCode }}>
-              <img
-                src={base64}
-                style={{
-                  transform: `translatey(-50%) translatex(-50%)`
-                }}
-                className="demo-image"
-              />
-
-              {new Array(BLADES).fill("").map((el, elIdx, arr) => {
-                const tot = arr.length * 3;
-
-                const opacity = 0.1 + 0.3 * ((arr.length - elIdx) / arr.length);
-
-                const shadowStyle = {
-                  outline: "none",
-                  transform: `translatey(-${0.5 * 100}%) translatex(${-0.5 * 100}%) rotate(-${(360 / tot) * elIdx}deg)`,
-                  opacity: opacity,
-                  transformOrigin: `${0.5 * 100}% ${0.5 * 100}%`
-                };
-
-                const normalStyle = {
-                  transform: `translatey(-${0.5 * 100}%) translatex(${-0.5 * 100}%) rotate(0deg)`,
-                  opacity: 0,
-                  transformOrigin: `${0.5 * 100}% ${0.5 * 100}%`
-                };
-
-                return (
-                  <img
-                    src={base64}
-                    key={elIdx}
-                    className={`demo-image -shadow-${elIdx}`}
-                    style={useSpin ? shadowStyle : normalStyle}
-                  />
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="column">
-            <div className="demo-image-container-title">Visual Center</div>
-            <div className="demo-image-container" style={{ backgroundColor: bgColorCode }}>
-              <img
-                src={base64}
-                className="demo-image"
-                style={{
-                  transform: `translatey(-${resultTop * 100}%) translatex(${-resultLeft * 100}%)`
-                }}
-              />
-
-              {new Array(BLADES + 2).fill("").map((el, elIdx, arr) => {
-                const tot = arr.length * 3;
-
-                const opacity = 0.05 + 0.3 * ((arr.length - elIdx) / arr.length);
-
-                const shadowStyle = {
-                  outline: "none",
-                  transform: `translatey(-${resultTop * 100}%) translatex(${-resultLeft * 100}%) rotate(-${(360 / tot) *
-                    elIdx}deg)`,
-                  opacity: opacity,
-                  transformOrigin: `${resultLeft * 100}% ${resultTop * 100}%`
-                };
-
-                const normalStyle = {
-                  transform: `translatey(-${resultTop * 100}%) translatex(${-resultLeft * 100}%) rotate(0deg)`,
-                  opacity: 0,
-                  transformOrigin: `${resultLeft * 100}% ${resultTop * 100}%`
-                };
-
-                return (
-                  <img
-                    src={base64}
-                    key={elIdx}
-                    className={`demo-image -shadow-${elIdx}`}
-                    style={useSpin ? shadowStyle : normalStyle}
-                  />
-                );
-              })}
-            </div>
-          </div>
-        </div>
-
-        <div className="app-control-container">
-          <label className="app-control">
-            <input
-              type="checkbox"
-              checked={showGuides}
-              onChange={() => {
-                this.setState({ showGuides: !showGuides });
-              }}
-            />
-            <div>Show guides</div>
-          </label>
-
-          <label className="app-control">
-            <input
-              type="checkbox"
-              checked={useCircle}
-              onChange={() => {
-                this.setState({ useCircle: !useCircle });
-              }}
-            />
-            <div>Make the canvas a circle</div>
-          </label>
-
-          <label className="app-control">
-            <input
-              type="checkbox"
-              checked={useSpin}
-              onChange={() => {
-                this.setState({ useSpin: !useSpin });
-              }}
-            />
-            <div>
-              Rotation Shadows{" "}
-              <span
-                style={{
-                  fontWeight: "500",
-                  lineHeight: 1,
-                  padding: "0.25rem",
-                  backgroundColor: "rgba(255,255,255,0.25)",
-                  display: "inline-block",
-                  color: "#c00",
-                  fontSize: "0.7rem"
-                }}>
-                NEW
-              </span>
-            </div>
-          </label>
-        </div>
-
-        {base64 && (
-          <div className="padding-2 results">
-            <div>{base64 && `The center is at ${toPercent(resultLeft)}% - ${toPercent(resultTop)}%`}</div>
-            {recommendations.length ? (
-              <div>
-                {"You can visual center your image if you "}
-                {_.map(recommendations, (rec, recIdx) => {
-                  return <span key={recIdx}>{rec}</span>;
-                })}
-              </div>
-            ) : (
-              <div style={{ color: "#27AE60" }}>Your image is perfectly centered! Congrats!</div>
-            )}
-            <div>
-              <br />
-              Interested in <strong>Sketch</strong> and <strong>Figma</strong> plugins?{" "}
-              <a href="http://eepurl.com/b5_E-j" target="_blank">
-                <strong>Join the newsletter!</strong>
-              </a>
-            </div>
-          </div>
-        )}
-
-        <div className="credits">
-          <div className="credits-header">Other projects</div>
-          <a href="https://javier.xyz/img2css">
-            <b>img2css</b>
-            <div>Convert images to pure css.</div>
-          </a>
-          <a href="https://javier.xyz/cohesive-colors">
-            <b>cohesive-colors</b>
-            <div>Create cohesive color palletes.</div>
-          </a>
-          <a href="https://javier.xyz/morphin">
-            <b>morphin</b>
-            <div>CSS image morphing.</div>
-          </a>
-          <a href="https://javier.xyz/clashjs/">
-            <b>clashjs</b>
-            <div>JS AI Battle Game.</div>
-          </a>
-        </div>
-
-        <div>
-          {"Created by "}
-          <a href="https://javier.xyz/">
-            <b>javierbyte</b>
-          </a>
-          {"."}
-          <br />
-          <br />
-        </div>
-      </div>
-    );
+    FR.readAsDataURL(evt.target.files[0]);
   }
 }
 
-function normalizeColor(color) {
-  return {
-    r: Math.floor(color.r * (color.a / 255) + 255 * (1 - color.a / 255)),
-    g: Math.floor(color.g * (color.a / 255) + 255 * (1 - color.a / 255)),
-    b: Math.floor(color.b * (color.a / 255) + 255 * (1 - color.a / 255)),
-    a: 255
-  };
+function GetRecommendation({ resultLeft, resultTop }) {
+  const recommendations = _.compact([
+    resultLeft > 0.5 && (
+      <span>
+        move it left <strong>{toPercent(resultLeft - 0.5)}%</strong>
+      </span>
+    ),
+    resultLeft < 0.5 && (
+      <span>
+        move it right <strong>{toPercent(1 - resultLeft - 0.5)}%</strong>
+      </span>
+    ),
+    resultLeft !== 0.5 && resultTop !== 0.5 && <span> and </span>,
+    resultTop > 0.5 && (
+      <span>
+        move it up <strong>{toPercent(resultTop - 0.5)}%</strong>
+      </span>
+    ),
+    resultTop < 0.5 && (
+      <span>
+        move it down <strong>{toPercent(1 - resultTop - 0.5)}%</strong>
+      </span>
+    )
+  ]);
+
+  return (
+    <Fragment>
+      <Text>
+        {'The center is at '}
+        <strong>{`${toPercent(resultLeft)}%, ${toPercent(resultTop)}%`}</strong>
+      </Text>
+      <Space h={0.25} />
+      {recommendations.length ? (
+        <Text>
+          {'You can visual center your image if you '}
+          {_.map(recommendations, (rec, recIdx) => {
+            return <span key={recIdx}>{rec}</span>;
+          })}
+        </Text>
+      ) : (
+        <Text style={{ color: '#27AE60' }}>
+          Your image is perfectly centered! Congrats!
+        </Text>
+      )}
+    </Fragment>
+  );
+}
+
+function App() {
+  const [imgSrc, imgSrcSet] = useState(null);
+
+  const [showGuides, showGuidesSet] = useState(true);
+  const [useCircleCanvas, useCircleCanvasSet] = useState(true);
+  const [isShadowRotation, isShadowRotationSet] = useState(false);
+
+  const [resultTop, resultTopSet] = useState(0.6666);
+  const [resultLeft, resultLeftSet] = useState(0.5);
+
+  const [detectedBgcolor, detectedBgcolorSet] = useState('#fff');
+
+  useEffect(() => {
+    console.info('Calculating.');
+
+    visualCenter(imgSrc, (err, result) => {
+      const { visualTop, visualLeft, bgColor } = result;
+
+      resultTopSet(visualTop);
+      resultLeftSet(visualLeft);
+      detectedBgcolorSet(`rgba(${bgColor.r}, ${bgColor.g}, ${bgColor.b})`);
+
+      console.info(`Calculated`, { ...result });
+    });
+  }, [imgSrc]);
+
+  return (
+    <Container>
+      <JBX accent={'#ff53a9'} />
+      <MainHeader>Visual Center</MainHeader>
+      <Space h={1} />
+      <Text>Find the visual center of your images.</Text>
+      <Space h={2} />
+
+      <div
+        className={`demo-image-comparison ${showGuides ? '-show-guides' : ''} ${
+          useCircleCanvas ? '-use-circle' : ''
+        } ${isShadowRotation ? '-use-spin' : ''}`}
+      >
+        <div className="column">
+          <div className="demo-image-container-title">
+            <SmallText>Center to container</SmallText>
+          </div>
+          <Space h={0.5} />
+          <div
+            className="demo-image-container"
+            style={{ backgroundColor: detectedBgcolor }}
+          >
+            <img
+              alt=""
+              src={imgSrc || demoImage}
+              style={{
+                transform: `translatey(-50%) translatex(-50%)`
+              }}
+              className="demo-image"
+            />
+
+            {new Array(ROTATION_BLADES).fill('').map((el, elIdx, arr) => {
+              const tot = arr.length * 3;
+
+              const opacity = 0.1 + 0.3 * ((arr.length - elIdx) / arr.length);
+
+              const shadowStyle = {
+                outline: 'none',
+                transform: `translatey(-${0.5 * 100}%) translatex(${
+                  -0.5 * 100
+                }%) rotate(-${(360 / tot) * elIdx}deg)`,
+                opacity: opacity,
+                transformOrigin: `${0.5 * 100}% ${0.5 * 100}%`
+              };
+
+              const normalStyle = {
+                transform: `translatey(-${0.5 * 100}%) translatex(${
+                  -0.5 * 100
+                }%) rotate(0deg)`,
+                opacity: 0,
+                transformOrigin: `${0.5 * 100}% ${0.5 * 100}%`
+              };
+
+              return (
+                <img
+                  alt=""
+                  src={imgSrc || demoImage}
+                  key={elIdx}
+                  className={`demo-image -shadow-${elIdx}`}
+                  style={isShadowRotation ? shadowStyle : normalStyle}
+                />
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="column">
+          <div className="demo-image-container-title">
+            <SmallText>Visual Center</SmallText>
+          </div>
+          <Space h={0.5} />
+          <div
+            className="demo-image-container"
+            style={{ backgroundColor: detectedBgcolor }}
+          >
+            <img
+              alt=""
+              src={imgSrc || demoImage}
+              className="demo-image"
+              style={{
+                transform: `translatey(${-resultTop * 100}%) translatex(${
+                  -resultLeft * 100
+                }%)`
+              }}
+            />
+
+            {new Array(ROTATION_BLADES + 2).fill('').map((el, elIdx, arr) => {
+              const tot = arr.length * 3;
+
+              const opacity = 0.05 + 0.3 * ((arr.length - elIdx) / arr.length);
+
+              const shadowStyle = {
+                outline: 'none',
+                transform: `translatey(-${resultTop * 100}%) translatex(${
+                  -resultLeft * 100
+                }%) rotate(-${(360 / tot) * elIdx}deg)`,
+                opacity: opacity,
+                transformOrigin: `${resultLeft * 100}% ${resultTop * 100}%`
+              };
+
+              const normalStyle = {
+                transform: `translatey(-${resultTop * 100}%) translatex(${
+                  -resultLeft * 100
+                }%) rotate(0deg)`,
+                opacity: 0,
+                transformOrigin: `${resultLeft * 100}% ${resultTop * 100}%`
+              };
+
+              return (
+                <img
+                  alt=""
+                  src={imgSrc || demoImage}
+                  key={elIdx}
+                  className={`demo-image -shadow-${elIdx}`}
+                  style={isShadowRotation ? shadowStyle : normalStyle}
+                />
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      <Inline style={{ gap: 16 }}>
+        <Checkbox
+          checked={showGuides}
+          onChange={showGuidesSet}
+          label="Show guides"
+        />
+        <Checkbox
+          checked={useCircleCanvas}
+          onChange={useCircleCanvasSet}
+          label="Use circle canvas"
+        />
+        <Checkbox
+          checked={isShadowRotation}
+          onChange={isShadowRotationSet}
+          label="Rotation shadows"
+        />
+      </Inline>
+
+      <Space h={2} />
+
+      <GetRecommendation resultLeft={resultLeft} resultTop={resultTop} />
+
+      <Space h={2} />
+
+      <Dropzone
+        style={{ height: 64 }}
+        onDrop={onFileSelected.bind(this, imgSrcSet)}
+      >
+        <Text>Click or drop an image here</Text>
+        <input
+          type="file"
+          onChange={onFileSelected.bind(this, imgSrcSet)}
+          accept="image/*"
+          aria-label="Drop an image here, or click to select"
+        />
+      </Dropzone>
+
+      <Space h={3} />
+
+      <Text>More experiments</Text>
+      <Space h={0.5} />
+      <Text>
+        <Ul>
+          <Li>
+            <A href="https://javier.xyz/img2css/">img2css</A>, tool that can
+            convert any image into a pure css image.
+          </Li>
+          <Li>
+            <A href="https://javier.xyz/droste-creator/">Droste Creator</A>,
+            Create recursive images with the droste effect.
+          </Li>
+          <Li>
+            <A href="https://javier.xyz/pintr/">PINTR</A>, tool that turns your
+            images into plotter-like line drawings.
+          </Li>
+          <Li>
+            <A href="https://clashjs.com/">clashjs</A>, JS AI Battle Game.
+          </Li>
+        </Ul>
+      </Text>
+
+      <Space h={2} />
+      <Text>
+        Made by <A href="https://javier.xyz">javierbyte</A>.
+      </Text>
+    </Container>
+  );
 }
 
 function toPercent(number) {
