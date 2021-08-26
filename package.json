@@ -3,8 +3,7 @@
   "description": "Find the visual center of your images.",
   "version": "1.2.0",
   "private": false,
-  "homepage": "/",
-  "homepages": "https://javier.xyz/visual-center/",
+  "homepage": "https://javier.xyz/visual-center/",
   "repository": {
     "type": "git",
     "url": "https://github.com/javierbyte/visual-center/"
