@@ -77,7 +77,9 @@ function GetRecommendation({ resultLeft, resultTop }) {
           })}
         </Text>
       ) : (
-        <Text style={{ color: '#27AE60' }}>Your image is perfectly centered! Congrats!</Text>
+        <Text style={{ color: '#27AE60' }}>
+          Your image is perfectly centered! Congrats!
+        </Text>
       )}
     </Fragment>
   );
@@ -127,7 +129,10 @@ function App() {
             <SmallText>Center to container</SmallText>
           </div>
           <Space h={0.5} />
-          <div className="demo-image-container" style={{ backgroundColor: detectedBgcolor }}>
+          <div
+            className="demo-image-container"
+            style={{ backgroundColor: detectedBgcolor }}
+          >
             <img
               alt=""
               src={imgSrc || demoImage}
@@ -144,15 +149,17 @@ function App() {
 
               const shadowStyle = {
                 outline: 'none',
-                transform: `translatey(-${0.5 * 100}%) translatex(${-0.5 * 100}%) rotate(-${
-                  (360 / tot) * elIdx
-                }deg)`,
+                transform: `translatey(-${0.5 * 100}%) translatex(${
+                  -0.5 * 100
+                }%) rotate(-${(360 / tot) * elIdx}deg)`,
                 opacity: opacity,
                 transformOrigin: `${0.5 * 100}% ${0.5 * 100}%`
               };
 
               const normalStyle = {
-                transform: `translatey(-${0.5 * 100}%) translatex(${-0.5 * 100}%) rotate(0deg)`,
+                transform: `translatey(-${0.5 * 100}%) translatex(${
+                  -0.5 * 100
+                }%) rotate(0deg)`,
                 opacity: 0,
                 transformOrigin: `${0.5 * 100}% ${0.5 * 100}%`
               };
@@ -175,13 +182,18 @@ function App() {
             <SmallText>Visual Center</SmallText>
           </div>
           <Space h={0.5} />
-          <div className="demo-image-container" style={{ backgroundColor: detectedBgcolor }}>
+          <div
+            className="demo-image-container"
+            style={{ backgroundColor: detectedBgcolor }}
+          >
             <img
               alt=""
               src={imgSrc || demoImage}
               className="demo-image"
               style={{
-                transform: `translatey(${-resultTop * 100}%) translatex(${-resultLeft * 100}%)`
+                transform: `translatey(${-resultTop * 100}%) translatex(${
+                  -resultLeft * 100
+                }%)`
               }}
             />
 
@@ -222,7 +234,11 @@ function App() {
       </div>
 
       <Inline style={{ gap: 16 }}>
-        <Checkbox checked={showGuides} onChange={showGuidesSet} label="Show guides" />
+        <Checkbox
+          checked={showGuides}
+          onChange={showGuidesSet}
+          label="Show guides"
+        />
         <Checkbox
           checked={useCircleCanvas}
           onChange={useCircleCanvasSet}
@@ -241,7 +257,10 @@ function App() {
 
       <Space h={2} />
 
-      <Dropzone style={{ height: 64 }} onDrop={onFileSelected.bind(this, imgSrcSet)}>
+      <Dropzone
+        style={{ height: 64 }}
+        onDrop={onFileSelected.bind(this, imgSrcSet)}
+      >
         <Text>Click or drop an image here</Text>
         <input
           type="file"
@@ -258,16 +277,16 @@ function App() {
       <Text>
         <Ul>
           <Li>
-            <A href="https://javier.xyz/img2css/">img2css</A>, tool that can convert any image into
-            a pure css image.
+            <A href="https://javier.xyz/img2css/">img2css</A>, tool that can
+            convert any image into a pure css image.
           </Li>
           <Li>
-            <A href="https://javier.xyz/droste-creator/">Droste Creator</A>, Create recursive images
-            with the droste effect.
+            <A href="https://javier.xyz/droste-creator/">Droste Creator</A>,
+            Create recursive images with the droste effect.
           </Li>
           <Li>
-            <A href="https://javier.xyz/pintr/">PINTR</A>, tool that turns your images into
-            plotter-like line drawings.
+            <A href="https://javier.xyz/pintr/">PINTR</A>, tool that turns your
+            images into plotter-like line drawings.
           </Li>
           <Li>
             <A href="https://clashjs.com/">clashjs</A>, JS AI Battle Game.
