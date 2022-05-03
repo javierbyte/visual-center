@@ -1,13 +1,11 @@
 import { Fragment, useState, useEffect } from 'react';
 
-// import Dropzone from "react-dropzone";
-import _ from 'lodash';
+import { compact, map } from 'lodash';
 
 import visualCenter from './visualCenter.js';
 import demoImage from './assets/demo.js';
 
 import {
-  JBX,
   MainHeader,
   Text,
   SmallText,
@@ -18,7 +16,7 @@ import {
   Inline,
   A,
   Ul,
-  Li
+  Li,
 } from 'jbx';
 
 const ROTATION_BLADES = 24;
@@ -38,7 +36,7 @@ function onFileSelected(callback, evt) {
 }
 
 function GetRecommendation({ resultLeft, resultTop }) {
-  const recommendations = _.compact([
+  const recommendations = compact([
     resultLeft > 0.5 && (
       <span>
         move it left <strong>{toPercent(resultLeft - 0.5)}%</strong>
@@ -59,7 +57,7 @@ function GetRecommendation({ resultLeft, resultTop }) {
       <span>
         move it down <strong>{toPercent(1 - resultTop - 0.5)}%</strong>
       </span>
-    )
+    ),
   ]);
 
   return (
@@ -72,7 +70,7 @@ function GetRecommendation({ resultLeft, resultTop }) {
       {recommendations.length ? (
         <Text>
           {'You can visual center your image if you '}
-          {_.map(recommendations, (rec, recIdx) => {
+          {map(recommendations, (rec, recIdx) => {
             return <span key={recIdx}>{rec}</span>;
           })}
         </Text>
@@ -113,7 +111,6 @@ function App() {
 
   return (
     <Container>
-      <JBX accent={'#ff53a9'} />
       <MainHeader>Visual Center</MainHeader>
       <Space h={1} />
       <Text>Find the visual center of your images.</Text>
@@ -137,7 +134,7 @@ function App() {
               alt=""
               src={imgSrc || demoImage}
               style={{
-                transform: `translatey(-50%) translatex(-50%)`
+                transform: `translatey(-50%) translatex(-50%)`,
               }}
               className="demo-image"
             />
@@ -153,7 +150,7 @@ function App() {
                   -0.5 * 100
                 }%) rotate(-${(360 / tot) * elIdx}deg)`,
                 opacity: opacity,
-                transformOrigin: `${0.5 * 100}% ${0.5 * 100}%`
+                transformOrigin: `${0.5 * 100}% ${0.5 * 100}%`,
               };
 
               const normalStyle = {
@@ -161,7 +158,7 @@ function App() {
                   -0.5 * 100
                 }%) rotate(0deg)`,
                 opacity: 0,
-                transformOrigin: `${0.5 * 100}% ${0.5 * 100}%`
+                transformOrigin: `${0.5 * 100}% ${0.5 * 100}%`,
               };
 
               return (
@@ -193,7 +190,7 @@ function App() {
               style={{
                 transform: `translatey(${-resultTop * 100}%) translatex(${
                   -resultLeft * 100
-                }%)`
+                }%)`,
               }}
             />
 
@@ -208,7 +205,7 @@ function App() {
                   -resultLeft * 100
                 }%) rotate(-${(360 / tot) * elIdx}deg)`,
                 opacity: opacity,
-                transformOrigin: `${resultLeft * 100}% ${resultTop * 100}%`
+                transformOrigin: `${resultLeft * 100}% ${resultTop * 100}%`,
               };
 
               const normalStyle = {
@@ -216,7 +213,7 @@ function App() {
                   -resultLeft * 100
                 }%) rotate(0deg)`,
                 opacity: 0,
-                transformOrigin: `${resultLeft * 100}% ${resultTop * 100}%`
+                transformOrigin: `${resultLeft * 100}% ${resultTop * 100}%`,
               };
 
               return (

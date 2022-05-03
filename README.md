@@ -2,7 +2,7 @@
 
 Tool that will find the visual center of your images / logos.
 
-[![visual-center](public/visual-center.jpg)](https://javier.xyz/visual-center/)
+[![visual-center](public/javier-xyz-visual-center.jpg)](https://javier.xyz/visual-center/)
 
 ## How it works.
 

@@ -1,3 +1,7 @@
+:root {
+  --accent-color: #ff53a9;
+}
+
 .column {
   margin: 0;
   display: inline-block;
