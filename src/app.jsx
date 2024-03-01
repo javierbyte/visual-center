@@ -4,11 +4,11 @@ import { compact, map } from 'lodash';
 
 import visualCenter from './visualCenter.js';
 import demoImage from './assets/demo.js';
+// import { downloadCenteredImage } from './lib/imglib';
 
 import {
   MainHeader,
   Text,
-  SmallText,
   Space,
   Container,
   Dropzone,
@@ -17,9 +17,22 @@ import {
   A,
   Ul,
   Li,
+  HeaderH3,
+  HeaderH4,
+  Button,
+  Box,
 } from 'jbx';
 
-const ROTATION_BLADES = 24;
+const ROTATION_BLADES = 24 * 1;
+const TOTAL_BLADES_MULTIPLIER = 3;
+
+function Card({ children }) {
+  return (
+    <div className="jbx-card">
+      <Box padding={1}>{children}</Box>
+    </div>
+  );
+}
 
 function onFileSelected(callback, evt) {
   if (evt.target.files && evt.target.files[0]) {
@@ -114,7 +127,6 @@ function App() {
       <MainHeader>Visual Center</MainHeader>
       <Space h={1} />
       <Text>Find the visual center of your images.</Text>
-      <Space h={2} />
 
       <div
         className={`demo-image-comparison ${showGuides ? '-show-guides' : ''} ${
@@ -122,10 +134,10 @@ function App() {
         } ${isShadowRotation ? '-use-spin' : ''}`}
       >
         <div className="column">
-          <div className="demo-image-container-title">
-            <SmallText>Center to container</SmallText>
+          <div className="txt-center">
+            <HeaderH4>Original</HeaderH4>
           </div>
-          <Space h={0.5} />
+          <Space h={1} />
           <div
             className="demo-image-container"
             style={{ backgroundColor: detectedBgcolor }}
@@ -140,7 +152,7 @@ function App() {
             />
 
             {new Array(ROTATION_BLADES).fill('').map((el, elIdx, arr) => {
-              const tot = arr.length * 3;
+              const tot = arr.length * TOTAL_BLADES_MULTIPLIER;
 
               const opacity = 0.1 + 0.3 * ((arr.length - elIdx) / arr.length);
 
@@ -175,10 +187,10 @@ function App() {
         </div>
 
         <div className="column">
-          <div className="demo-image-container-title">
-            <SmallText>Visual Center</SmallText>
+          <div className="txt-center">
+            <HeaderH4>Visual Center</HeaderH4>
           </div>
-          <Space h={0.5} />
+          <Space h={1} />
           <div
             className="demo-image-container"
             style={{ backgroundColor: detectedBgcolor }}
@@ -195,7 +207,7 @@ function App() {
             />
 
             {new Array(ROTATION_BLADES + 2).fill('').map((el, elIdx, arr) => {
-              const tot = arr.length * 3;
+              const tot = arr.length * TOTAL_BLADES_MULTIPLIER;
 
               const opacity = 0.05 + 0.3 * ((arr.length - elIdx) / arr.length);
 
@@ -250,24 +262,53 @@ function App() {
 
       <Space h={2} />
 
-      <GetRecommendation resultLeft={resultLeft} resultTop={resultTop} />
+      <Card>
+        <Dropzone
+          style={{ height: 64 }}
+          onDrop={onFileSelected.bind(this, imgSrcSet)}
+        >
+          <Text>Click or drop your own image here</Text>
+          <input
+            type="file"
+            onChange={onFileSelected.bind(this, imgSrcSet)}
+            accept="image/*"
+            aria-label="Drop an image here, or click to select"
+          />
+        </Dropzone>
+
+        <GetRecommendation resultLeft={resultLeft} resultTop={resultTop} />
+        <Space h={1} />
+        <Button>Download centered PNG</Button>
+      </Card>
+
+      <Space h={1} />
+
+      <HeaderH3>Explanation</HeaderH3>
+      <Space h={0.5} />
+      <Text>
+        The <strong>original</strong> image has its bounding box centered in the
+        container. This works for most images but when there is a heavy balance
+        on one side the image can feel unbalanced. The{' '}
+        <strong>visual center</strong> image has added padding so the{' '}
+        <i>weight</i> of the pixels is distributed equally in both axis. This
+        makes some images look more centered and rotate better.
+      </Text>
 
       <Space h={2} />
 
-      <Dropzone
-        style={{ height: 64 }}
-        onDrop={onFileSelected.bind(this, imgSrcSet)}
-      >
-        <Text>Click or drop an image here</Text>
-        <input
-          type="file"
-          onChange={onFileSelected.bind(this, imgSrcSet)}
-          accept="image/*"
-          aria-label="Drop an image here, or click to select"
-        />
-      </Dropzone>
+      <HeaderH3>How does it work?</HeaderH3>
+      <Space h={0.5} />
+      <Text>
+        This algorithm works by first assigning a <i>color difference value</i>{' '}
+        to each pixel as the difference between its color and the detected
+        background color. 0 is the same color, 1 is the most different color.
+        The weight of each pixel is calculated as the square of the distance of
+        this pixel to a given coordinate multiplied by its color difference
+        value. The visual center is the coordinate where the total weight on
+        each side of both axis is equal.
+      </Text>
 
-      <Space h={3} />
+      <Space h={2} />
 
       <Text>More experiments</Text>
       <Space h={0.5} />
