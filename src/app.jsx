@@ -275,10 +275,8 @@ function App() {
             aria-label="Drop an image here, or click to select"
           />
         </Dropzone>
-
-        <GetRecommendation resultLeft={resultLeft} resultTop={resultTop} />
         <Space h={1} />
-        <Button>Download centered PNG</Button>
+        <GetRecommendation resultLeft={resultLeft} resultTop={resultTop} />
       </Card>
 
       <Space h={1} />
