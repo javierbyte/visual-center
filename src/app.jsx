@@ -4,7 +4,7 @@ import { compact, map } from 'lodash';
 
 import visualCenter from './visualCenter.js';
 import demoImage from './assets/demo.js';
-// import { downloadCenteredImage } from './lib/imglib';
+import { downloadCenteredImage } from './lib/imglib.js';
 
 import {
   MainHeader,
@@ -241,6 +241,21 @@ function App() {
           </div>
         </div>
       </div>
+
+      <div className="txt-center">
+        <Button
+          onClick={() =>
+            downloadCenteredImage(imgSrc || demoImage, {
+              x: resultLeft,
+              y: resultTop,
+            })
+          }
+        >
+          Download
+        </Button>
+      </div>
+
+      <Space h={1} />
 
       <Inline style={{ gap: 16 }}>
         <Checkbox

@@ -1,7 +1,4 @@
-export function downloadCenteredImage(
-  src: string,
-  center: { x: number; y: number }
-) {
+export function downloadCenteredImage(src, center) {
   const { x, y } = center;
 
   const img = new Image();
@@ -17,22 +14,15 @@ export function downloadCenteredImage(
       return;
     }
 
-    // ctx.drawImage(img, 0, 0);
     ctx.drawImage(
       img,
       x > 0.5 ? 0 : canvas.width - img.width,
       y > 0.5 ? 0 : canvas.height - img.height
     );
 
-    // // draw in the dom
-    // const img2 = new Image();
-    // img2.src = canvas.toDataURL('image/png');
-    // img2.style.border = '1px solid red';
-    // document.body.appendChild(img2);
-
     const a = document.createElement('a');
     a.href = canvas.toDataURL('image/png');
-    a.download = 'image.png';
+    a.download = 'image-centered.png';
     a.click();
   };
 }
