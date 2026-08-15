@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "base64-image-utils": "^1.2.0",
-    "jbx": "^2.11.0",
+    "jbx": "^2.12.0",
     "lodash": "^4.18.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
