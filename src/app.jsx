@@ -15,12 +15,11 @@ import {
   Checkbox,
   Inline,
   A,
-  Ul,
-  Li,
   HeaderH3,
   HeaderH4,
   Button,
   Box,
+  MoreExperiments,
 } from 'jbx';
 
 const ROTATION_BLADES = 24 * 1;
@@ -308,27 +307,7 @@ function App() {
 
       <Space h={2} />
 
-      <Text>More experiments</Text>
-      <Space h={0.5} />
-      <Text>
-        <Ul>
-          <Li>
-            <A href="https://javier.xyz/img2css/">img2css</A>, tool that can
-            convert any image into a pure css image.
-          </Li>
-          <Li>
-            <A href="https://javier.xyz/droste-creator/">Droste Creator</A>,
-            Create recursive images with the droste effect.
-          </Li>
-          <Li>
-            <A href="https://javier.xyz/pintr/">PINTR</A>, tool that turns your
-            images into plotter-like line drawings.
-          </Li>
-          <Li>
-            <A href="https://clashjs.com/">clashjs</A>, JS AI Battle Game.
-          </Li>
-        </Ul>
-      </Text>
+      <MoreExperiments exclude="visual-center" />
 
       <Space h={2} />
       <Text>
