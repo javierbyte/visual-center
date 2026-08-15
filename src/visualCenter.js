@@ -1,8 +1,8 @@
 /* eslint-disable */
 
 import base64ImageUtils from 'base64-image-utils';
+import _ from 'lodash';
 
-const _ = require('lodash');
 const { base64ImageToRGBMatrix } = base64ImageUtils;
 
 const COLOR_DIFF_WEIGHT_EXPO = 0.333;
