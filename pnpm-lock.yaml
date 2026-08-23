@@ -15,8 +15,8 @@ importers:
         specifier: ^1.2.0
         version: 1.2.0
       jbx:
-        specifier: ^2.13.0
-        version: 2.13.0(react@19.2.8)
+        specifier: ^2.15.0
+        version: 2.15.0(react@19.2.8)
       lodash:
         specifier: ^4.18.1
         version: 4.18.1
@@ -279,8 +279,8 @@ packages:
     resolution: {integrity: sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ==}
     engines: {node: '>=8'}
 
-  jbx@2.13.0:
-    resolution: {integrity: sha512-ejcQwI8ZQN5GoX6/5Jzz2dyIbhkWe8xUs4PNIdGEaA73+L0tT+j17eMh5qbN5JvMMXRao+e/LygNTr63FqRoIw==}
+  jbx@2.15.0:
+    resolution: {integrity: sha512-sbXjzhVnb33UN90eYI8UCE2HGW8pOeZ7lymqtEWtSB8h2jlGvHr3hrKrriZU8WWTItCc6SmQrLQo5FbXMIV+8g==}
     engines: {node: '>=18'}
     peerDependencies:
       react: ^17 || ^18 || ^19
@@ -531,7 +531,7 @@ snapshots:
   detect-libc@2.1.2:
     optional: true
 
-  jbx@2.13.0(react@19.2.8):
+  jbx@2.15.0(react@19.2.8):
     dependencies:
       react: 19.2.8
 
