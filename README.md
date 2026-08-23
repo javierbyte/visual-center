@@ -40,4 +40,4 @@ getVisualCenter(<imgSrc>, function(err, result) {
 
 BSD-3-Clause License
 
-Made by [javierbyte](https://javier.xyz). 2016-2026
+Made by [Javier Bórquez](https://javier.xyz). Online since 2016.
