@@ -11,28 +11,62 @@ const ROUNDS = 250;
 const SIZE = 420;
 
 function visualCenter(base64, callback, opts = {}) {
-  base64ImageToRGBMatrix(
-    base64,
-    (err, rgbMatrix) => {
-      const height = rgbMatrix.length;
-      const width = rgbMatrix[0].length;
-      const bgColor = normalizeColor(rgbMatrix[0][0]);
+  let completed = false;
+  const complete = (err, result) => {
+    if (completed) return;
+    completed = true;
+    callback(err, result);
+  };
+  const image = new Image();
 
-      const { visualLeft, visualTop } = calculateVisualCenter(rgbMatrix);
-
-      callback(null, {
-        visualTop: visualTop,
-        visualLeft: visualLeft,
-
-        bgColor: bgColor,
-        width: width,
-        height: height
-      });
-    },
-    {
-      size: SIZE
-    }
+  image.addEventListener(
+    'error',
+    () => complete(new Error('The image could not be decoded.')),
+    { once: true }
   );
+  image.addEventListener(
+    'load',
+    () => {
+      try {
+        base64ImageToRGBMatrix(
+          base64,
+          (err, rgbMatrix) => {
+            if (err || !rgbMatrix?.length || !rgbMatrix[0]?.length) {
+              complete(err || new Error('The image could not be analyzed.'));
+              return;
+            }
+
+            try {
+              const height = rgbMatrix.length;
+              const width = rgbMatrix[0].length;
+              const bgColor = normalizeColor(rgbMatrix[0][0]);
+
+              const { visualLeft, visualTop } =
+                calculateVisualCenter(rgbMatrix);
+
+              complete(null, {
+                visualTop: visualTop,
+                visualLeft: visualLeft,
+
+                bgColor: bgColor,
+                width: width,
+                height: height,
+              });
+            } catch (error) {
+              complete(error);
+            }
+          },
+          {
+            size: SIZE,
+          }
+        );
+      } catch (error) {
+        complete(error);
+      }
+    },
+    { once: true }
+  );
+  image.src = base64;
 }
 
 function calculateVisualCenter(rgbMatrix) {

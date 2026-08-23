@@ -13,7 +13,7 @@
   "author": "Javier Bórquez <hi@javier.xyz> (http://github.com/javierbyte)",
   "license": "BSD-3-Clause",
   "scripts": {
-    "dev": "next dev",
+    "dev": "echo 'Local:         http://localhost:3005/visual-center' && next dev -p 3005",
     "build": "next build"
   },
   "dependencies": {

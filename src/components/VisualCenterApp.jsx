@@ -1,12 +1,12 @@
 'use client';
 
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 
 import { compact, map } from 'lodash';
 
 import visualCenter from '../visualCenter.js';
 import demoImage from '../assets/demo.js';
-// import { downloadCenteredImage } from '../lib/imglib';
+import { downloadCenteredImage } from '../lib/imglib';
 
 import {
   Text,
@@ -15,6 +15,7 @@ import {
   Checkbox,
   Inline,
   HeaderH4,
+  Button,
   Box,
 } from 'jbx';
 
@@ -29,18 +30,49 @@ function Card({ children }) {
   );
 }
 
-function onFileSelected(callback, evt) {
-  if (evt.target.files && evt.target.files[0]) {
-    const FR = new FileReader();
-    FR.addEventListener(
-      'load',
-      function (e) {
-        callback(e.target.result);
-      },
-      false
+const DEMO_SOURCE = {
+  src: demoImage,
+  name: 'visual-center-demo.png',
+  mimeType: 'image/png',
+  svgText: null,
+};
+
+function getSelectedFile(evt) {
+  return evt.target.files?.[0] || evt.dataTransfer?.files?.[0] || null;
+}
+
+function readFileAsDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.addEventListener('load', () => resolve(reader.result), {
+      once: true,
+    });
+    reader.addEventListener(
+      'error',
+      () => reject(new Error('The selected file could not be read.')),
+      { once: true }
     );
-    FR.readAsDataURL(evt.target.files[0]);
-  }
+    reader.readAsDataURL(file);
+  });
+}
+
+function isSvgFile(file) {
+  return (
+    file.type.toLowerCase().split(';')[0] === 'image/svg+xml' ||
+    file.name.toLowerCase().endsWith('.svg')
+  );
+}
+
+function getDownloadFilename(source) {
+  const stem = source.name.replace(/\.[^.]*$/, '') || 'image';
+  const extension =
+    source.mimeType.toLowerCase().split(';')[0] === 'image/svg+xml' ||
+    source.name.toLowerCase().endsWith('.svg')
+      ? 'svg'
+      : 'png';
+
+  return `${stem}-centered.${extension}`;
 }
 
 function GetRecommendation({ resultLeft, resultTop }) {
@@ -92,30 +124,143 @@ function GetRecommendation({ resultLeft, resultTop }) {
 }
 
 export default function VisualCenterApp() {
-  const [imgSrc, imgSrcSet] = useState(null);
+  const [source, sourceSet] = useState(DEMO_SOURCE);
 
   const [showGuides, showGuidesSet] = useState(true);
   const [useCircleCanvas, useCircleCanvasSet] = useState(true);
   const [isShadowRotation, isShadowRotationSet] = useState(false);
 
-  const [resultTop, resultTopSet] = useState(0.6666);
-  const [resultLeft, resultLeftSet] = useState(0.5);
+  const [resultTop, resultTopSet] = useState(null);
+  const [resultLeft, resultLeftSet] = useState(null);
 
   const [detectedBgcolor, detectedBgcolorSet] = useState('#fff');
+  const [isReading, isReadingSet] = useState(false);
+  const [isAnalyzing, isAnalyzingSet] = useState(true);
+  const [isExporting, isExportingSet] = useState(false);
+  const [analysisError, analysisErrorSet] = useState(null);
+  const [downloadError, downloadErrorSet] = useState(null);
+  const selectionIdRef = useRef(0);
+  const analysisIdRef = useRef(0);
+
+  const displayTop = resultTop ?? 0.5;
+  const displayLeft = resultLeft ?? 0.5;
+  const downloadDisabled =
+    isReading ||
+    isAnalyzing ||
+    isExporting ||
+    Boolean(analysisError) ||
+    resultTop === null ||
+    resultLeft === null;
 
   useEffect(() => {
+    const analysisId = ++analysisIdRef.current;
     console.info('Calculating.');
+    isAnalyzingSet(true);
+    analysisErrorSet(null);
+    downloadErrorSet(null);
+    resultTopSet(null);
+    resultLeftSet(null);
 
-    visualCenter(imgSrc || demoImage, (err, result) => {
-      const { visualTop, visualLeft, bgColor } = result;
+    try {
+      visualCenter(source.src, (err, result) => {
+        if (analysisId !== analysisIdRef.current) return;
 
-      resultTopSet(visualTop);
-      resultLeftSet(visualLeft);
-      detectedBgcolorSet(`rgba(${bgColor.r}, ${bgColor.g}, ${bgColor.b})`);
+        if (err || !result) {
+          analysisErrorSet('This image could not be analyzed.');
+          isAnalyzingSet(false);
+          return;
+        }
 
-      console.info(`Calculated`, { ...result });
-    });
-  }, [imgSrc]);
+        const { visualTop, visualLeft, bgColor } = result;
+
+        resultTopSet(visualTop);
+        resultLeftSet(visualLeft);
+        detectedBgcolorSet(`rgba(${bgColor.r}, ${bgColor.g}, ${bgColor.b})`);
+        isAnalyzingSet(false);
+
+        console.info(`Calculated`, { ...result });
+      });
+    } catch (error) {
+      if (analysisId === analysisIdRef.current) {
+        console.error(error);
+        analysisErrorSet('This image could not be analyzed.');
+        isAnalyzingSet(false);
+      }
+    }
+
+    return () => {
+      if (analysisId === analysisIdRef.current) {
+        analysisIdRef.current += 1;
+      }
+    };
+  }, [source]);
+
+  async function onFileSelected(evt) {
+    evt.preventDefault();
+    const file = getSelectedFile(evt);
+    if (!file) return;
+
+    const selectionId = ++selectionIdRef.current;
+    analysisIdRef.current += 1;
+    isReadingSet(true);
+    isAnalyzingSet(false);
+    analysisErrorSet(null);
+    downloadErrorSet(null);
+    resultTopSet(null);
+    resultLeftSet(null);
+
+    try {
+      const svgInput = isSvgFile(file);
+      const [src, svgText] = await Promise.all([
+        readFileAsDataUrl(file),
+        svgInput ? file.text() : Promise.resolve(null),
+      ]);
+
+      if (selectionId !== selectionIdRef.current) return;
+
+      isAnalyzingSet(true);
+      sourceSet({
+        src,
+        name: file.name || 'image',
+        mimeType: svgInput ? 'image/svg+xml' : file.type,
+        svgText,
+      });
+    } catch (error) {
+      if (selectionId === selectionIdRef.current) {
+        console.error(error);
+        analysisErrorSet('This image could not be read.');
+        isAnalyzingSet(false);
+      }
+    } finally {
+      if (selectionId === selectionIdRef.current) {
+        isReadingSet(false);
+      }
+    }
+  }
+
+  async function onDownload() {
+    if (downloadDisabled) return;
+
+    isExportingSet(true);
+    downloadErrorSet(null);
+
+    try {
+      await downloadCenteredImage(
+        source.src,
+        { x: resultLeft, y: resultTop },
+        {
+          filename: getDownloadFilename(source),
+          mimeType: source.mimeType,
+          svgText: source.svgText,
+        }
+      );
+    } catch (error) {
+      console.error(error);
+      downloadErrorSet('The corrected image could not be created.');
+    } finally {
+      isExportingSet(false);
+    }
+  }
 
   return (
     <Fragment>
@@ -135,7 +280,7 @@ export default function VisualCenterApp() {
           >
             <img
               alt=""
-              src={imgSrc || demoImage}
+              src={source.src}
               style={{
                 transform: `translatey(-50%) translatex(-50%)`,
               }}
@@ -167,7 +312,7 @@ export default function VisualCenterApp() {
               return (
                 <img
                   alt=""
-                  src={imgSrc || demoImage}
+                  src={source.src}
                   key={elIdx}
                   className={`demo-image -shadow-${elIdx}`}
                   style={isShadowRotation ? shadowStyle : normalStyle}
@@ -188,11 +333,11 @@ export default function VisualCenterApp() {
           >
             <img
               alt=""
-              src={imgSrc || demoImage}
+              src={source.src}
               className="demo-image"
               style={{
-                transform: `translatey(${-resultTop * 100}%) translatex(${
-                  -resultLeft * 100
+                transform: `translatey(${-displayTop * 100}%) translatex(${
+                  -displayLeft * 100
                 }%)`,
               }}
             />
@@ -204,25 +349,25 @@ export default function VisualCenterApp() {
 
               const shadowStyle = {
                 outline: 'none',
-                transform: `translatey(-${resultTop * 100}%) translatex(${
-                  -resultLeft * 100
+                transform: `translatey(-${displayTop * 100}%) translatex(${
+                  -displayLeft * 100
                 }%) rotate(-${(360 / tot) * elIdx}deg)`,
                 opacity: opacity,
-                transformOrigin: `${resultLeft * 100}% ${resultTop * 100}%`,
+                transformOrigin: `${displayLeft * 100}% ${displayTop * 100}%`,
               };
 
               const normalStyle = {
-                transform: `translatey(-${resultTop * 100}%) translatex(${
-                  -resultLeft * 100
+                transform: `translatey(-${displayTop * 100}%) translatex(${
+                  -displayLeft * 100
                 }%) rotate(0deg)`,
                 opacity: 0,
-                transformOrigin: `${resultLeft * 100}% ${resultTop * 100}%`,
+                transformOrigin: `${displayLeft * 100}% ${displayTop * 100}%`,
               };
 
               return (
                 <img
                   alt=""
-                  src={imgSrc || demoImage}
+                  src={source.src}
                   key={elIdx}
                   className={`demo-image -shadow-${elIdx}`}
                   style={isShadowRotation ? shadowStyle : normalStyle}
@@ -256,18 +401,39 @@ export default function VisualCenterApp() {
       <Card>
         <Dropzone
           style={{ height: 64 }}
-          onDrop={onFileSelected.bind(this, imgSrcSet)}
+          onDragOver={(evt) => evt.preventDefault()}
+          onDrop={onFileSelected}
         >
           <Text>Click or drop your own image here</Text>
           <input
             type="file"
-            onChange={onFileSelected.bind(this, imgSrcSet)}
+            onChange={onFileSelected}
             accept="image/*"
             aria-label="Drop an image here, or click to select"
           />
         </Dropzone>
         <Space h={1} />
-        <GetRecommendation resultLeft={resultLeft} resultTop={resultTop} />
+        {isReading || isAnalyzing ? (
+          <Text>Calculating visual center...</Text>
+        ) : analysisError ? (
+          <Text role="alert" style={{ color: '#c0392b' }}>
+            {analysisError}
+          </Text>
+        ) : (
+          <GetRecommendation resultLeft={resultLeft} resultTop={resultTop} />
+        )}
+        {downloadError && (
+          <Fragment>
+            <Space h={0.5} />
+            <Text role="alert" style={{ color: '#c0392b' }}>
+              {downloadError}
+            </Text>
+          </Fragment>
+        )}
+        <Space h={1} />
+        <Button type="button" disabled={downloadDisabled} onClick={onDownload}>
+          {isExporting ? 'Preparing download...' : 'Download'}
+        </Button>
       </Card>
     </Fragment>
   );
