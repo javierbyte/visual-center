@@ -1,6 +1,6 @@
 name: Deploy
 
-# Publishes the build to the gh-pages branch, which is what
+# Publishes the static export to the gh-pages branch, which is what
 # javier.xyz/visual-center rewrites to via javierbyte.github.io/visual-center.
 on:
   push:
@@ -34,4 +34,6 @@ jobs:
       - uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: ./out
+          # Next writes assets to _next/, and Jekyll skips underscore paths.
+          enable_jekyll: false

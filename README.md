@@ -16,7 +16,7 @@ http://spectrum.ieee.org/podcast/biomedical/bionics/does-the-brain-work-logarith
 ## Programmatic Usage.
 
 ```
-npm install visual-center --save
+pnpm add visual-center
 ```
 
 ```js
@@ -39,3 +39,5 @@ getVisualCenter(<imgSrc>, function(err, result) {
 ## License
 
 BSD-3-Clause License
+
+Made by [javierbyte](https://javier.xyz). 2016-2026

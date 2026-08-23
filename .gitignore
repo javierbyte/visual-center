@@ -2,6 +2,8 @@
 
 # dependencies
 /dist
+/.next
+/out
 .vercel
 /node_modules
 /.pnp
