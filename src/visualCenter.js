@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import base64ImageUtils from 'base64-image-utils';
 import _ from 'lodash';
 
